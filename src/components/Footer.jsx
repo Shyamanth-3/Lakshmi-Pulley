@@ -99,9 +99,6 @@ export default function Footer() {
           <p className="text-primary-500 font-medium text-sm">
             &copy; {currentYear} {companyData.name}. All Rights Reserved.
           </p>
-          <p className="text-primary-400 font-medium text-sm flex gap-4">
-            <span>Website completely redesigned and modernized.</span>
-          </p>
         </div>
       </div>
     </footer>
