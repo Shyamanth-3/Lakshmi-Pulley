@@ -17,7 +17,7 @@ export const productsData = [
       "Spacer coupling with spacers to suit different distances between shaft ends (DBSE)."
     ],
     variants: [
-      { 
+      {
         name: "Standard Coupling", torque: "20 to 262 Nm", power: "0.21 to 2.75 KW per 100 rpm", boreDir: "15 to 60 mm", sizes: 7, image: "/Assets/jaw1.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)"],
@@ -32,7 +32,7 @@ export const productsData = [
           ]
         }
       },
-      { 
+      {
         name: "External Spider Coupling", torque: "22 to 267 Nm", power: "0.23 to 2.80 KW per 100 rpm", boreDir: "15 to 60 mm", sizes: 6, image: "/Assets/jaw2.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)"],
@@ -47,7 +47,7 @@ export const productsData = [
           ]
         }
       },
-      { 
+      {
         name: "Cushion Coupling", torque: "330 to 2139 Nm", power: "3.45 to 22.40 KW per 100 rpm", boreDir: "25 to 90 mm", sizes: 5, image: "/Assets/jaw3.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)"],
@@ -60,7 +60,7 @@ export const productsData = [
           ]
         }
       },
-      { 
+      {
         name: "Standard Spacer Coupling", torque: "20 to 262 Nm", power: "0.21 to 2.75 KW per 100 rpm", boreDir: "15 to 60 mm", sizes: 7, image: "/Assets/jaw4.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)", "Spacer Length (mm)"],
@@ -74,7 +74,7 @@ export const productsData = [
           ]
         }
       },
-      { 
+      {
         name: "External Spider Aluminium Spacer Coupling", torque: "22 to 267 Nm", power: "0.23 to 2.80 KW per 100 rpm", boreDir: "15 to 60 mm", sizes: 6, image: "/Assets/jaw5.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)", "Spacer Length (mm)"],
@@ -88,7 +88,7 @@ export const productsData = [
           ]
         }
       },
-      { 
+      {
         name: "Cushion Spacer Coupling", torque: "330 to 2139 Nm", power: "3.45 to 22.40 KW per 100 rpm", boreDir: "25 to 90 mm", sizes: 5, image: "/Assets/jaw6.jpeg",
         requirementsTable: {
           headers: ["SIZE", "POWER (kW) per 100 rpm", "Bore Min (mm)", "Bore Max (mm)", "Spacer Length (mm)"],
@@ -185,7 +185,6 @@ export const productsData = [
       { name: "B-SPB belt pulleys", link: "/Assets/Pulleys/PULLEYB.pdf" },
       { name: "C-SPC belt pulleys", link: "/Assets/Pulleys/PULLEYC.pdf" },
       { name: "Z-SPZ belt pulleys", link: "/Assets/z1.pdf" },
-      { name: "Easyfit Bush", link: "/Assets/efb.pdf" },
       { name: "Easy Fit Bush Bore & Key Way", link: "/Assets/Pulleys/EASY FIT BUSH BORE AND KEY WAY-CATALOGUE..pdf" }
     ],
     features: [
