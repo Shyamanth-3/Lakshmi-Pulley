@@ -19,7 +19,7 @@ export const companyData = {
   },
   contact: {
     address: {
-      line1: "5-36 / 1 / 22, Prashanthinagar",
+      line1: "5-5-35/87, Prashanthinagar",
       line2: "Kukatpally, Hyderabad - 500072",
       country: "India"
     },
