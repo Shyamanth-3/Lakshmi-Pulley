@@ -231,8 +231,8 @@ export default function Enquiry() {
                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
                   <Sparkles className="text-accent" size={24} />
                 </div>
-                <h3 className="text-2xl font-bold font-heading mb-4">Need help selecting?</h3>
-                <p className="text-primary-100 leading-relaxed mb-6">
+                <h3 className="text-2xl font-bold font-heading mb-4 text-accent">Need help selecting?</h3>
+                <p className="text-primary-100 leading-relaxed mb-6"> 
                   If you need our technical assistance in selecting the perfect drive or coupling size for your machinery, please fill out the optional technical specifications.
                 </p>
                 <div className="space-y-4">
