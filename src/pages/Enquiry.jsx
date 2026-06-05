@@ -150,7 +150,10 @@ export default function Enquiry() {
                       <option value="Flexible Pin Bush Couplings">Flexible Pin Bush Couplings</option>
                       <option value="Flexible Tyre Couplings">Flexible Tyre Couplings</option>
                       <option value="Gear Couplings">Gear Couplings</option>
+                      <option value="LHRC Couplings">LHRC Couplings</option>
+                      <option value="Resilient Grid Couplings">Resilient Grid Couplings</option>
                       <option value="V-Pulleys">V-Pulleys</option>
+                      <option value="EasyFIT(Taper) Timing Pulleys">EasyFIT(Taper) Timing Pulleys</option>
                     </select>
                   </div>
                   <div>
@@ -169,7 +172,7 @@ export default function Enquiry() {
                   <span className="text-xs font-normal bg-primary-50 px-2 py-1 rounded text-primary-500">Optional</span>
                 </h3>
 
-                {formData.productCategory === 'V-Pulleys' ? (
+                {['V-Pulleys', 'EasyFIT(Taper) Timing Pulleys'].includes(formData.productCategory) ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                     <div>
                       <label className="block text-sm font-semibold text-primary-600 mb-2">Size of Pulley on Motor</label>

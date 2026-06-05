@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Brand Col */}
           <div>
             <div className="mb-6 flex items-center">
-              <img src="/Assets/logo3.gif" alt="Lakshmi Pulleys Logo" className="h-14 w-auto mix-blend-multiply" />
+              <img src="/Assets/logo3.png" alt="Lakshmi Pulleys Logo" className="h-14 w-auto mix-blend-multiply" />
             </div>
             <p className="text-primary-600 text-sm leading-relaxed mb-6 mt-4">
               {companyData.tagline}. Delivering excellence since {companyData.established}.

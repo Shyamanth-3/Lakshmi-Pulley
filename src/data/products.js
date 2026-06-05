@@ -5,7 +5,7 @@ export const productsData = [
     name: "Flexible Jaw Couplings",
     category: "Couplings",
     shortDescription: "Simple construction, quick installation with no special tools required. Absorbs shock loads and dampens vibration.",
-    image: "/Assets/1product.jpg",
+    image: "/Assets/Flexible jaw couplings.png",
     catalogPdf: "/Assets/Flexible jaw couplings.pdf",
     features: [
       "Simple construction - quick, easy installation - no special tools required.",
@@ -109,7 +109,7 @@ export const productsData = [
     name: "Flexible Pin Bush Couplings",
     category: "Couplings",
     shortDescription: "Cushioned drive type that transmits torque through high tensile steel bolts. Absorbs shock loads and torsional vibrations.",
-    image: "/Assets/2product.jpg",
+    image: "/Assets/PINCoup.png",
     catalogPdf: "/Assets/PIN_BUSH_COUPLING_CATALOGUE.pdf",
     features: [
       "Transmits torque through high tensile steel bolts to the machine input shaft.",
@@ -133,7 +133,7 @@ export const productsData = [
     name: "Flexible Tyre Couplings",
     category: "Couplings",
     shortDescription: "Torsionally elastic couplings with Easyfit (Taper) fixing, suitable for dampening destructive vibration.",
-    image: "/Assets/3product.jpg",
+    image: "/Assets/TyreCouplings.png",
     catalogPdf: "/Assets/Flexible tyre couplings.pdf",
     features: [
       "Provides all the desirable features of an ideal flexible coupling, including Easyfit (Taper) fixing.",
@@ -156,7 +156,7 @@ export const productsData = [
     name: "Gear Couplings",
     category: "Couplings",
     shortDescription: "Curved tooth flexible gear couplings known for mechanical flexibility and high power carrying capacity.",
-    image: "/Assets/5product.jpg",
+    image: "/Assets/Gear.png",
     catalogPdf: "/Assets/GEAR_COUPLINGS_CATALOGUE.pdf",
     features: [
       "Distinguished by mechanical flexibility and compensation of angular, parallel and axial misalignments.",
@@ -179,7 +179,7 @@ export const productsData = [
     name: "V-Pulleys",
     category: "Pulleys",
     shortDescription: "Standard range of metric pulleys to cover drives up to 250 kW, featuring dual duty grooves.",
-    image: "/Assets/6product.jpg",
+    image: "/Assets/Vpulley.png",
     catalogs: [
       { name: "A-SPA belt pulleys", link: "/Assets/Pulleys/PULLEYA.pdf" },
       { name: "B-SPB belt pulleys", link: "/Assets/Pulleys/PULLEYB.pdf" },
@@ -205,5 +205,49 @@ export const productsData = [
         ["C/SPC 4 to 8 Grooves", "200, 212, 224, 236, 250, 265, 280, 300, 315, 335, 355, 375, 400, 425, 450, 475, 500, 530, 560, 630, 800, 1000, 1250"]
       ]
     }
+  },
+  {
+    id: "lhrc-couplings",
+    slug: "lhrc-couplings",
+    name: "LHRC Couplings",
+    category: "Couplings",
+    shortDescription: "Lakshmi LHRC General purpose jaw Couplings with highly resilient rubber element in range of 8 sizes from 70 to 280 can transmit from 0.35kW to 33kW at 100RPM with the cost saving advantages of EASYFIT(TAPER) System.",
+    image: "/Assets/HRC.png",
+    features: [
+      "General purpose jaw Couplings with highly resilient rubber element.",
+      "Available in 8 sizes from 70 to 280.",
+      "Can transmit from 0.35kW to 33kW at 100RPM.",
+      "Cost saving advantages of the EASYFIT(TAPER) System."
+    ],
+    variantsInfo: "Contact us for custom requirements."
+  },
+  {
+    id: "easyfit-timing-pulleys",
+    slug: "easyfit-timing-pulleys",
+    name: "EasyFIT(Taper) Timing Pulleys",
+    category: "Pulleys",
+    shortDescription: "Lakshmi timing pulleys, non-slip with no backlash constant linear velocity of all pitches XL,L,H,HTD,T5,T10. For any other specification contact us.",
+    image: "/Assets/TimerPulleys.png",
+    features: [
+      "Non-slip with no backlash.",
+      "Constant linear velocity.",
+      "Available in all pitches: XL, L, H, HTD, T5, T10.",
+      "Custom specifications available upon contact."
+    ],
+    variantsInfo: "For any other specification contact us."
+  },
+  {
+    id: "resilient-grid-couplings",
+    slug: "resilient-grid-couplings",
+    name: "Resilient Grid Couplings",
+    category: "Couplings",
+    shortDescription: "Lakshmi grid Couplings Reduce Vibration, Absorb Shock and Compensate for Misalignment.",
+    image: "/Assets/RESILIENT_GRID_COUPLING.jpg",
+    features: [
+      "Reduces Vibration.",
+      "Absorbs Shock.",
+      "Compensates for Misalignment."
+    ],
+    variantsInfo: "Contact us for custom requirements."
   }
 ];

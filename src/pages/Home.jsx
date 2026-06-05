@@ -11,32 +11,26 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-primary-700 min-h-[85vh] flex items-center pt-20 pb-16 overflow-hidden">
+      <section className="relative bg-primary-700 min-h-[65vh] flex items-center pt-20 pb-16 overflow-hidden">
         {/* Abstract Background Elements */}
-        <div className="absolute inset-0 z-0 opacity-20">
-          <img src="/Assets/lakshmi_gears.png" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-700 via-primary-700/80 to-transparent"></div>
+        <div className="absolute inset-0 z-0 opacity-60">
+          <img src="/Assets/Banner3.png" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-800/60 to-transparent"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent font-semibold text-sm mb-6 uppercase tracking-wider backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-              </span>
-              Est. {companyData.established}
-            </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading text-white leading-tight mb-6">
-              Precision Power <br className="hidden md:block"/> 
+
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading text-white leading-tight mt-10  mb-6">
+              Precision Power <br className="hidden md:block" />
               <span className="text-accent">Transmission</span> Solutions
             </h1>
-            
+
             <p className="text-lg md:text-xl text-primary-100 mb-10 max-w-2xl leading-relaxed text-balance">
               {companyData.description.split('.')[0]}. Trusted by leading industries globally.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/products" className="btn btn-accent text-lg px-8 py-3 shadow-lg hover:shadow-xl">
                 Explore Products
@@ -50,7 +44,7 @@ export default function Home() {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-white border-b border-primary-100 relative -mt-10 z-20 mx-4 md:mx-auto md:w-[90%] lg:w-[80%] rounded-xl shadow-lg">
+      <section className="bg-white border-b border-primary-100 relative -mt-5 -mb-10 z-20 mx-4 md:mx-auto md:w-[90%] lg:w-[80%] rounded-xl shadow-lg">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-y divide-x md:divide-y-0 divide-primary-100">
           <div className="p-6 md:p-8 text-center flex flex-col items-center justify-center">
             <Award className="text-accent mb-3" size={32} />
@@ -79,8 +73,8 @@ export default function Home() {
       <section className="py-24 bg-surface">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <SectionHeading 
-              title="Our Products" 
+            <SectionHeading
+              title="Our Products"
               subtitle="Engineered for durability and performance in the most demanding industrial applications."
               className="mb-0"
             />
@@ -88,13 +82,13 @@ export default function Home() {
               View All Catalog <ArrowRight size={20} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {productsData.slice(0, 3).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          
+
           <div className="mt-12 text-center md:hidden">
             <Link to="/products" className="btn btn-outline w-full sm:w-auto">
               View All Products
@@ -114,7 +108,7 @@ export default function Home() {
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-primary-100 rounded-full mix-blend-multiply opacity-50 z-0"></div>
               <div className="absolute -top-8 -right-8 w-64 h-64 bg-accent/20 rounded-full mix-blend-multiply opacity-50 z-0"></div>
             </div>
-            
+
             <div className="lg:w-1/2">
               <SectionHeading title="About Our Excellence" />
               <div className="prose prose-lg text-primary-600 mb-8 max-w-none">
@@ -123,9 +117,9 @@ export default function Home() {
                   "{companyData.qualityStatement.split('.')[0]}."
                 </p>
               </div>
-              
+
               <Link to="/about" className="btn btn-primary inline-flex items-center group">
-                Read Our Story 
+                Read Our Story
                 <ArrowRight size={18} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
