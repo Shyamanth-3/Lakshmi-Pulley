@@ -185,7 +185,8 @@ export const productsData = [
       { name: "B-SPB belt pulleys", link: "/Assets/Pulleys/PULLEYB.pdf" },
       { name: "C-SPC belt pulleys", link: "/Assets/Pulleys/PULLEYC.pdf" },
       { name: "Z-SPZ belt pulleys", link: "/Assets/z1.pdf" },
-      { name: "Easyfit Bush", link: "/Assets/efb.pdf" }
+      { name: "Easyfit Bush", link: "/Assets/efb.pdf" },
+      { name: "Easy Fit Bush Bore & Key Way", link: "/Assets/Pulleys/EASY FIT BUSH BORE AND KEY WAY-CATALOGUE..pdf" }
     ],
     features: [
       "Standard range of metric pulleys to cover drives up to 250 kW approx.",
