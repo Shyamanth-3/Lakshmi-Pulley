@@ -187,10 +187,7 @@ function buildEmailHTML(data) {
                 📅 Submitted: ${timestamp}
               </p>
               <p style="margin: 0 0 6px 0; color: #576CBC; font-size: 12px;">
-                🌐 Source: lakshmipulleys.in
-              </p>
-              <p style="margin: 12px 0 0 0; color: #3A4F7A; font-size: 11px; font-style: italic;">
-                This email was generated automatically from the website enquiry form.
+                🌐 Source: lakshmipulleys.com
               </p>
             </td>
           </tr>
