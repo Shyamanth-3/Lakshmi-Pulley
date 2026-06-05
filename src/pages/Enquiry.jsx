@@ -9,7 +9,7 @@ const initialFormData = {
   companyName: '',
   email: '',
   phone: '',
-  productCategory: 'Couplings',
+  productCategory: 'Flexible Jaw Couplings',
   quantity: '',
   description: '',
   // Pulley fields
@@ -146,8 +146,11 @@ export default function Enquiry() {
                       value={formData.productCategory}
                       onChange={handleChange}
                     >
-                      <option value="Couplings">Couplings</option>
-                      <option value="Pulleys">Pulleys</option>
+                      <option value="Flexible Jaw Couplings">Flexible Jaw Couplings</option>
+                      <option value="Flexible Pin Bush Couplings">Flexible Pin Bush Couplings</option>
+                      <option value="Flexible Tyre Couplings">Flexible Tyre Couplings</option>
+                      <option value="Gear Couplings">Gear Couplings</option>
+                      <option value="V-Pulleys">V-Pulleys</option>
                     </select>
                   </div>
                   <div>
@@ -166,7 +169,7 @@ export default function Enquiry() {
                   <span className="text-xs font-normal bg-primary-50 px-2 py-1 rounded text-primary-500">Optional</span>
                 </h3>
 
-                {formData.productCategory === 'Pulleys' ? (
+                {formData.productCategory === 'V-Pulleys' ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                     <div>
                       <label className="block text-sm font-semibold text-primary-600 mb-2">Size of Pulley on Motor</label>

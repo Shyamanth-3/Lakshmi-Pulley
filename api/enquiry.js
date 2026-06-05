@@ -21,7 +21,7 @@ function buildEmailHTML(data) {
 
   // Build technical details rows
   let technicalRows = '';
-  if (data.productCategory === 'Pulleys') {
+  if (data.productCategory === 'V-Pulleys') {
     technicalRows = `
       <tr>
         <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 14px; width: 40%; vertical-align: top;">Motor Pulley Size</td>
