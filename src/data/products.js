@@ -243,6 +243,7 @@ export const productsData = [
     category: "Couplings",
     shortDescription: "Lakshmi grid Couplings Reduce Vibration, Absorb Shock and Compensate for Misalignment.",
     image: "/Assets/RESILIENT_GRID_COUPLING.jpg",
+    catalogPdf: "/Assets/RESILIENT_GRID_COUPLING.pdf",
     features: [
       "Reduces Vibration.",
       "Absorbs Shock.",
