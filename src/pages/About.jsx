@@ -17,7 +17,7 @@ export default function About() {
       <section className="container mx-auto px-4 mb-20">
         <div className="bg-primary-700 rounded-2xl overflow-hidden shadow-2xl relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
-          
+
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 p-12 lg:p-20 flex flex-col justify-center relative z-10">
               <h1 className="text-4xl lg:text-5xl font-bold font-heading text-white mb-6">Our Legacy of Excellence</h1>
@@ -26,7 +26,7 @@ export default function About() {
               </p>
             </div>
             <div className="lg:w-1/2 relative min-h-[300px] lg:min-h-auto">
-              <img src="/Assets/power.jpg" alt="Lakshmi Pulleys Factory" className="absolute inset-0 w-full h-full object-cover" />
+              <img src="/Assets/lakshmi_gears.jpg" alt="Lakshmi Pulleys Factory" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-transparent to-primary-700/80"></div>
             </div>
           </div>
@@ -48,7 +48,7 @@ export default function About() {
       <section className="bg-surface-alt py-24 mb-0 border-t border-primary-100">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
+
             {/* Leadership & Identity */}
             <div className="bg-white p-8 rounded-xl border border-primary-100 shadow-sm">
               <h3 className="text-2xl font-bold font-heading text-primary-700 mb-6 pb-4 border-b border-primary-100">Identity & Leadership</h3>
@@ -64,7 +64,7 @@ export default function About() {
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Leadership</div>
                   <div className="col-span-2 text-primary-700 font-medium">
-                    {companyData.leadership.name}<br/>
+                    {companyData.leadership.name}<br />
                     <span className="text-sm text-primary-500 font-normal">{companyData.leadership.role} — {companyData.leadership.degree}</span>
                   </div>
                 </div>
@@ -97,10 +97,10 @@ export default function About() {
                 </div>
               </div>
             </div>
-            
+
             {/* Quality Statement (Full Width Span) */}
             <div className="col-span-1 lg:col-span-2 bg-primary-600 text-white p-8 md:p-12 rounded-xl shadow-lg mt-4 relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500 rounded-full mix-blend-multiply opacity-50 -translate-y-1/2 translate-x-1/4"></div>
+              <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500 rounded-full mix-blend-multiply opacity-50 -translate-y-1/2 translate-x-1/4"></div>
               <h3 className="text-2xl font-bold font-heading mb-6 relative z-10">Quality Control Guarantee</h3>
               <p className="text-lg text-primary-100 leading-relaxed relative z-10 max-w-4xl">
                 {companyData.qualityStatement}
@@ -110,8 +110,8 @@ export default function About() {
           </div>
         </div>
       </section>
-      
-      <CTASection title="Discover Our Products" subtitle="Explore our wide range of power transmission solutions manufactured with the highest quality standards." primaryButtonText="View Products" primaryButtonLink="/products"/>
+
+      <CTASection title="Discover Our Products" subtitle="Explore our wide range of power transmission solutions manufactured with the highest quality standards." primaryButtonText="View Products" primaryButtonLink="/products" />
     </div>
   );
 }
