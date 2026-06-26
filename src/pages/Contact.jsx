@@ -13,8 +13,8 @@ export default function Contact() {
 
       <div className="container mx-auto px-4">
         <SectionHeading 
-          title="Get in Touch" 
-          subtitle="Whether you have a question about features, trials, pricing, need a demo, or anything else, our team is ready to answer all your questions."
+          title="Get in Touch with Lakshmi Pulley" 
+          subtitle="Have a question about our industrial pulleys or need a custom quote? The Lakshmi Pulley team is ready to help with all your power transmission needs."
         />
 
         <div className="flex flex-col lg:flex-row gap-12">

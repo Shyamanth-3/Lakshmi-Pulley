@@ -39,7 +39,7 @@ export default function Navbar() {
           <Link to="/" className="flex items-center gap-3">
             <img 
               src="/Assets/logo3.png" 
-              alt="Lakshmi Pulleys Logo" 
+              alt="Lakshmi Pulley – Lakshmi Engineering Enterprises Logo" 
               className="h-14 w-auto object-contain transition-all duration-300"
             />
           </Link>

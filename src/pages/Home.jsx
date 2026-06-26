@@ -28,7 +28,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg md:text-xl text-primary-100 mb-10 max-w-2xl leading-relaxed text-balance">
-              {companyData.description.split('.')[0]}. Trusted by leading industries globally.
+              <strong className="text-white">Lakshmi Pulley</strong> — {companyData.description.split('.')[0]}. Trusted by leading industries globally.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -110,7 +110,7 @@ export default function Home() {
             </div>
 
             <div className="lg:w-1/2">
-              <SectionHeading title="About Our Excellence" />
+              <SectionHeading title="About Lakshmi Pulley" />
               <div className="prose prose-lg text-primary-600 mb-8 max-w-none">
                 <p>{companyData.description}</p>
                 <p className="font-medium text-primary-700 border-l-4 border-accent pl-4 py-1 mt-6">

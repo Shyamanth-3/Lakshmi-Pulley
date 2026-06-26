@@ -20,7 +20,7 @@ export default function About() {
 
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 p-12 lg:p-20 flex flex-col justify-center relative z-10">
-              <h1 className="text-4xl lg:text-5xl font-bold font-heading text-white mb-6">Our Legacy of Excellence</h1>
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading text-white mb-6">Lakshmi Pulley — Our Legacy of Excellence</h1>
               <p className="text-primary-100 text-lg leading-relaxed">
                 {companyData.description}
               </p>
