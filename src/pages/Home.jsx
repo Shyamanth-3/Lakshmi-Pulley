@@ -14,7 +14,7 @@ export default function Home() {
       <section className="relative bg-primary-700 min-h-[65vh] flex items-center pt-20 pb-16 overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 z-0 opacity-60">
-          <img src="/Assets/Banner3.png" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
+          <img src="/images/site/home-hero-1280.webp" srcSet="/images/site/home-hero-640.webp 640w, /images/site/home-hero-960.webp 960w, /images/site/home-hero-1280.webp 1280w, /images/site/home-hero-1915.webp 1915w" sizes="max(100vw, 1280px)" width="1915" height="821" fetchPriority="high" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-800/60 to-transparent"></div>
         </div>
 
@@ -103,7 +103,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <div className="lg:w-1/2 relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl relative z-10">
-                <img src="/Assets/lakshmi_gears.png" alt="Lakshmi Parts" className="w-full h-full object-cover" />
+                <img src="/images/site/home-about-960.webp" srcSet="/images/site/home-about-480.webp 480w, /images/site/home-about-640.webp 640w, /images/site/home-about-960.webp 960w, /images/site/home-about-1280.webp 1280w" sizes="(min-width: 1024px) 800px, 480px" width="1280" height="720" loading="lazy" decoding="async" alt="Lakshmi Parts" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-primary-100 rounded-full mix-blend-multiply opacity-50 z-0"></div>
               <div className="absolute -top-8 -right-8 w-64 h-64 bg-accent/20 rounded-full mix-blend-multiply opacity-50 z-0"></div>

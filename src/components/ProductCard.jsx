@@ -8,8 +8,12 @@ export default function ProductCard({ product }) {
       {/* Product Image Component */}
       <div className="aspect-[4/3] bg-primary-50 relative overflow-hidden flex items-center justify-center p-4">
         <img 
-          src={product.image} 
+          src={`${product.image}-640.webp`}
+          srcSet={`${product.image}-320.webp 320w, ${product.image}-480.webp 480w, ${product.image}-640.webp 640w, ${product.image}-960.webp 960w`}
+          sizes="(min-width: 1024px) 350px, (min-width: 768px) 45vw, calc(100vw - 64px)"
           alt={product.name} 
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur tracking-wider uppercase text-[10px] font-bold px-3 py-1 rounded-full text-primary-600 border border-primary-200">

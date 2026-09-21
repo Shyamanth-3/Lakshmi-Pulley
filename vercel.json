@@ -1,4 +1,71 @@
 {
+  "redirects": [
+    {
+      "source": "/Assets/Flexible jaw couplings.pdf",
+      "destination": "/downloads/lakshmi-flexible-jaw-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Flexible%20jaw%20couplings.pdf",
+      "destination": "/downloads/lakshmi-flexible-jaw-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/PIN_BUSH_COUPLING_CATALOGUE.pdf",
+      "destination": "/downloads/lakshmi-flexible-pin-bush-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Flexible tyre couplings.pdf",
+      "destination": "/downloads/lakshmi-flexible-tyre-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Flexible%20tyre%20couplings.pdf",
+      "destination": "/downloads/lakshmi-flexible-tyre-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/GEAR_COUPLINGS_CATALOGUE.pdf",
+      "destination": "/downloads/lakshmi-gear-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/RESILIENT_GRID_COUPLING.pdf",
+      "destination": "/downloads/lakshmi-resilient-grid-couplings-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Pulleys/PULLEYA.pdf",
+      "destination": "/downloads/lakshmi-v-pulleys-spa-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Pulleys/PULLEYB.pdf",
+      "destination": "/downloads/lakshmi-v-pulleys-spb-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Pulleys/PULLEYC.pdf",
+      "destination": "/downloads/lakshmi-v-pulleys-spc-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/z1.pdf",
+      "destination": "/downloads/lakshmi-v-pulleys-spz-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Pulleys/EASY FIT BUSH BORE AND KEY WAY-CATALOGUE..pdf",
+      "destination": "/downloads/lakshmi-easyfit-bush-bore-keyway-catalogue.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/Assets/Pulleys/EASY%20FIT%20BUSH%20BORE%20AND%20KEY%20WAY-CATALOGUE..pdf",
+      "destination": "/downloads/lakshmi-easyfit-bush-bore-keyway-catalogue.pdf",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }

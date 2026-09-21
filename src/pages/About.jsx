@@ -26,7 +26,7 @@ export default function About() {
               </p>
             </div>
             <div className="lg:w-1/2 relative min-h-[300px] lg:min-h-auto">
-              <img src="/Assets/ALL.png" alt="Lakshmi Pulleys Factory" className="absolute inset-0 w-200 h-full object-cover" />
+              <img src="/images/site/about-hero-1280.webp" srcSet="/images/site/about-hero-640.webp 640w, /images/site/about-hero-960.webp 960w, /images/site/about-hero-1280.webp 1280w" sizes="800px" width="1280" height="640" fetchPriority="high" alt="Lakshmi Pulleys Factory" className="absolute inset-0 w-200 h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-transparent to-primary-700/80"></div>
             </div>
           </div>

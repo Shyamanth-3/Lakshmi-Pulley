@@ -38,8 +38,11 @@ export default function ProductDetail() {
             <div className="bg-white rounded-2xl p-8 border border-primary-100 shadow-sm mb-6 sticky top-28">
               <div className="aspect-[4/3] relative flex items-center justify-center bg-primary-50 rounded-xl overflow-hidden mb-8 p-4">
                 <img 
-                  src={product.image} 
+                  src={`${product.image}-640.webp`}
+                  srcSet={`${product.image}-320.webp 320w, ${product.image}-480.webp 480w, ${product.image}-640.webp 640w, ${product.image}-960.webp 960w`}
+                  sizes="(min-width: 1024px) 350px, calc(100vw - 128px)"
                   alt={product.name} 
+                  decoding="async"
                   className="w-full h-full object-contain mix-blend-multiply"
                 />
               </div>
