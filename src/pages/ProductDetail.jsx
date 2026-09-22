@@ -10,6 +10,17 @@ import { getDocument } from '../data/documents';
 import { getRangeRows, formatVariantRange, columnHeader, formatCell } from '../data/format';
 import { Download, X } from 'lucide-react';
 
+// Intrinsic dimensions for variant thumbnails (products.js has no width/height for these — only a
+// path), read directly from the image files so the <img> below can avoid layout shift.
+const VARIANT_IMAGE_SIZE = {
+  '/Assets/jaw1.jpeg': { width: 94, height: 96 },
+  '/Assets/jaw2.jpeg': { width: 67, height: 66 },
+  '/Assets/jaw3.jpeg': { width: 73, height: 73 },
+  '/Assets/jaw4.jpeg': { width: 71, height: 71 },
+  '/Assets/jaw5.jpeg': { width: 68, height: 67 },
+  '/Assets/jaw6.jpeg': { width: 73, height: 73 },
+};
+
 // One template for all 8 products: every section below only renders when the canonical
 // record actually has that data, so a thin record (e.g. LHRC Couplings) produces a short,
 // honest page instead of empty headings.
@@ -160,7 +171,7 @@ export default function ProductDetail() {
                 <div key={variant.id} className="panel flex flex-col md:flex-row gap-6 items-center">
                   {variant.image && (
                     <div className="w-full md:w-32 h-32 shrink-0 bg-primary-50 rounded-md p-2 flex items-center justify-center">
-                      <img src={variant.image} alt={variant.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                      <img src={variant.image} alt={variant.name} {...VARIANT_IMAGE_SIZE[variant.image]} className="max-w-full max-h-full object-contain mix-blend-multiply" />
                     </div>
                   )}
                   <div className="flex-grow w-full">
