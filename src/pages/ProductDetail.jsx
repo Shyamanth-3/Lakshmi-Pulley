@@ -1,239 +1,353 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import FeatureList from '../components/FeatureList';
-import CTASection from '../components/CTASection';
-import { productsData } from '../data/products';
-import { Download, FileText, ChevronRight } from 'lucide-react';
+import ProductCard from '../components/ProductCard';
+import QuoteCTA from '../components/QuoteCTA';
+import NotFound from './NotFound';
+import { getProduct, getCategory } from '../data/products';
+import { getDocument } from '../data/documents';
+import { getRangeRows, formatVariantRange, columnHeader, formatCell } from '../data/format';
+import { Download, X } from 'lucide-react';
 
+// Intrinsic dimensions for variant thumbnails (products.js has no width/height for these — only a
+// path), read directly from the image files so the <img> below can avoid layout shift.
+const VARIANT_IMAGE_SIZE = {
+  '/Assets/jaw1.jpeg': { width: 94, height: 96 },
+  '/Assets/jaw2.jpeg': { width: 67, height: 66 },
+  '/Assets/jaw3.jpeg': { width: 73, height: 73 },
+  '/Assets/jaw4.jpeg': { width: 71, height: 71 },
+  '/Assets/jaw5.jpeg': { width: 68, height: 67 },
+  '/Assets/jaw6.jpeg': { width: 73, height: 73 },
+};
+
+// One template for all 8 products: every section below only renders when the canonical
+// record actually has that data, so a thin record (e.g. LHRC Couplings) produces a short,
+// honest page instead of empty headings.
 export default function ProductDetail() {
   const { slug } = useParams();
-  const [activeModal, setActiveModal] = useState(null);
-  
-  // Scroll to top when loading a new product
+  const [activeVariant, setActiveVariant] = useState(null);
+  const modalRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  const product = productsData.find(p => p.slug === slug);
+  // Native <dialog>: focus-trap, Escape-to-close and focus-return come for free (same pattern as SiteHeader's mobile menu).
+  useEffect(() => {
+    const dialog = modalRef.current;
+    if (!dialog) return;
+    if (activeVariant && !dialog.open) dialog.showModal();
+    if (!activeVariant && dialog.open) dialog.close();
+  }, [activeVariant]);
 
-  if (!product) {
-    return <Navigate to="/products" replace />;
-  }
+  const product = getProduct(slug);
+  if (!product) return <NotFound />;
+
+  const image = product.images[0];
+  const category = getCategory(product.category);
+  const documents = product.documentIds.map(getDocument);
+  const rangeRows = getRangeRows(product.specifications.range);
+  const tables = product.specifications.tables ?? [];
+  // Page-level "Technical Specifications" tables; variant tables render inside their own card below.
+  // Draft (unconfirmed, e.g. the old-site tyre coupling table) tables stay hidden until the owner confirms them — see products.js dataSource notes.
+  const pageTables = tables.filter((t) => !t.variantId && t.status === 'published');
+  const modalTable = activeVariant && tables.find((t) => t.id === activeVariant.tableId);
+  const relatedProducts = (product.relatedSlugs ?? []).map(getProduct).filter(Boolean);
+
+  const quoteHref = (variant, size) => {
+    const params = new URLSearchParams({ product: product.slug });
+    if (variant) params.set('variant', variant);
+    if (size) params.set('size', size);
+    return `/enquiry?${params.toString()}`;
+  };
 
   return (
-    <div className="bg-surface pb-0 pt-8">
-      <div className="container mx-auto px-4 mb-8">
-        <Breadcrumb items={[
-          { label: 'Products', link: '/products' },
-          { label: product.name }
-        ]} />
+    <div className="bg-surface pb-20 pt-8">
+      <div className="container mb-8">
+        <Breadcrumb items={[{ label: 'Products', link: '/products' }, { label: product.name }]} />
       </div>
 
-      <section className="container mx-auto px-4 mb-20">
+      {/* Hero: category, H1, summary, primary CTA, product image */}
+      <section className="container mb-16">
         <div className="flex flex-col lg:flex-row gap-12 xl:gap-20">
-          
-          {/* Left Column - Image & Actions */}
           <div className="lg:w-2/5">
-            <div className="bg-white rounded-2xl p-8 border border-primary-100 shadow-sm mb-6 sticky top-28">
-              <div className="aspect-[4/3] relative flex items-center justify-center bg-primary-50 rounded-xl overflow-hidden mb-8 p-4">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
+            <div className="panel sticky top-24">
+              <div className="aspect-[4/3] flex items-center justify-center bg-primary-50 rounded-md overflow-hidden mb-6 p-4">
+                <img
+                  src={`${image.src}-${image.defaultWidth}.webp`}
+                  srcSet={image.widths.map((w) => `${image.src}-${w}.webp ${w}w`).join(', ')}
+                  sizes="(min-width: 1024px) 350px, calc(100vw - 96px)"
+                  width={image.width}
+                  height={image.height}
+                  alt={image.alt}
+                  decoding="async"
                   className="w-full h-full object-contain mix-blend-multiply"
                 />
               </div>
-              
-              <div className="flex flex-col gap-3">
-                {product.catalogPdf && (
-                  <a 
-                    href={product.catalogPdf} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="btn btn-outline w-full flex items-center justify-center gap-2 group"
-                  >
-                    <FileText size={18} className="group-hover:-translate-y-0.5 transition-transform" />
-                    Download Catalog PDF
-                  </a>
-                )}
-                {product.catalogs && product.catalogs.length > 0 && (
-                  <div className="flex flex-col gap-2 mt-2">
-                    {product.catalogs.map((catalog, idx) => (
-                      <a 
-                        key={idx}
-                        href={catalog.link} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="btn btn-outline w-full flex items-center justify-center gap-2 group text-sm"
-                      >
-                        <FileText size={16} className="group-hover:-translate-y-0.5 transition-transform text-accent" />
-                        Download {catalog.name}
-                      </a>
-                    ))}
-                  </div>
-                )}
-                
-                <Link to="/enquiry" className="btn btn-primary w-full flex items-center justify-center gap-2 shadow-md">
-                  Request Quote for this Product
-                </Link>
-              </div>
+              <Link to={quoteHref()} className="btn btn-primary w-full justify-center">
+                Get a Quote for this Product
+              </Link>
             </div>
           </div>
-          
-          {/* Right Column - Details */}
+
           <div className="lg:w-3/5">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-primary-50 text-accent font-bold text-xs uppercase tracking-wider rounded-md border border-primary-100 mb-4">
-                {product.category}
+            {category && (
+              <span className="text-label inline-block px-3 py-1 bg-primary-50 text-accent uppercase tracking-wider rounded-md border border-primary-100 mb-4">
+                {category.name}
               </span>
-              <h1 className="text-4xl md:text-5xl font-bold font-heading text-primary-700 mb-6">{product.name}</h1>
-              <p className="text-xl text-primary-600 leading-relaxed mb-10 border-l-4 border-accent pl-4">
-                {product.shortDescription}
-              </p>
-            </div>
-            
-            {/* Features */}
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold font-heading text-primary-700 mb-6 flex items-center gap-2">
-                Salient Features
-              </h2>
-              <FeatureList features={product.features} />
-            </div>
-            
-            {/* Technical Specifications (if present directly) */}
-            {product.technicalRange && (
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold font-heading text-primary-700 mb-6">Technical Range</h2>
-                <div className="bg-white border text-primary-700 border-primary-100 rounded-xl overflow-hidden shadow-sm">
-                  <div className="divide-y divide-primary-100">
-                    {Object.entries(product.technicalRange).map(([key, value]) => (
-                      <div key={key} className="flex flex-col sm:flex-row p-4 hover:bg-primary-50 transition-colors">
-                        <div className="sm:w-1/3 font-semibold text-primary-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
-                        <div className="sm:w-2/3">{value}</div>
-                      </div>
-                    ))}
+            )}
+            <h1 className="mb-6">{product.name}</h1>
+            <p className="text-xl text-primary-600 leading-relaxed mb-10 border-l-4 border-accent pl-4">
+              {product.summary}
+            </p>
+
+            {/* Range strip */}
+            {rangeRows.length > 0 && (
+              <dl className="panel flex flex-wrap gap-x-10 gap-y-5 mb-10">
+                {rangeRows.map(({ key, label, text }) => (
+                  <div key={key}>
+                    <dt className="text-label">{label}</dt>
+                    <dd className="text-value text-lg text-primary-700 mt-1">{text}</dd>
                   </div>
-                </div>
-              </div>
+                ))}
+              </dl>
             )}
-            
-            {/* Variants table for Jaw Couplings */}
-            {product.variants && product.variants.length > 0 && (
+
+            {product.features?.length > 0 && (
               <div className="mb-12">
-                <h2 className="text-2xl font-bold font-heading text-primary-700 mb-6">Types & Variants</h2>
-                
-                <div className="grid grid-cols-1 gap-6">
-                  {product.variants.map((variant, idx) => (
-                    <div key={idx} className="bg-white border border-primary-100 rounded-xl p-6 shadow-sm flex flex-col md:flex-row gap-6 items-center">
-                      {variant.image && (
-                        <div className="w-full md:w-32 h-32 shrink-0 bg-primary-50 rounded-lg p-2 flex items-center justify-center">
-                          <img src={variant.image} alt={variant.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
-                        </div>
-                      )}
-                      <div className="flex-grow">
-                        <h3 className="text-xl font-bold font-heading text-primary-700 mb-3">{variant.name}</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-primary-600">
-                          <div><strong className="text-primary-700">Available Sizes:</strong> {variant.sizes}</div>
-                          <div><strong className="text-primary-700">Torque:</strong> {variant.torque}</div>
-                          <div><strong className="text-primary-700">Power:</strong> {variant.power}</div>
-                          <div><strong className="text-primary-700">Bore Dia:</strong> {variant.boreDir}</div>
-                        </div>
-                        {variant.requirementsTable && (
-                           <button 
-                             onClick={() => setActiveModal(variant)}
-                             className="mt-4 px-4 py-2 bg-primary-50 text-primary-700 text-sm font-semibold rounded-md border border-primary-200 hover:bg-primary-100 hover:text-accent transition-colors flex items-center gap-2"
-                           >
-                             <FileText size={16} /> View Specifications
-                           </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <h2 className="mb-6">Salient Features</h2>
+                <FeatureList features={product.features} />
               </div>
             )}
-            
-            {/* Extra Info */}
-            {product.variantsInfo && (
-              <div className="bg-primary-50 border border-primary-100 rounded-xl p-6 text-primary-700">
-                <p><strong>Additional Information:</strong> {product.variantsInfo}</p>
-              </div>
-            )}
-
-            {/* Requirements Table */}
-            {product.requirementsTable && (
-              <div className="mb-12 mt-12 bg-white rounded-xl shadow-sm border border-primary-100 overflow-hidden">
-                <div className="p-6 border-b border-primary-100 bg-primary-50">
-                  <h3 className="text-xl font-bold font-heading text-primary-700">Product Specifications</h3>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-white border-b border-primary-100">
-                        {product.requirementsTable.headers.map((header, idx) => (
-                          <th key={idx} className="p-4 font-semibold text-primary-700 whitespace-nowrap text-sm uppercase tracking-wide">
-                            {header}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-primary-50">
-                      {product.requirementsTable.rows.map((row, rowIdx) => (
-                        <tr key={rowIdx} className="hover:bg-primary-50/50 transition-colors">
-                          {row.map((cell, cellIdx) => (
-                            <td key={cellIdx} className="p-4 text-primary-600 font-medium whitespace-pre-wrap">
-                              {cell}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
           </div>
         </div>
       </section>
 
-      <CTASection title="Not sure which product you need?" subtitle="Our experts are ready to assist you in selecting the right drive for your application." primaryButtonText="Get Expert Help"/>
-
-      {/* Modal */}
-      {activeModal && activeModal.requirementsTable && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary-900/40 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
-            <div className="flex justify-between items-center p-6 border-b border-primary-100 bg-surface">
-              <h3 className="text-2xl font-bold font-heading text-primary-700">{activeModal.name} Specifications</h3>
-              <button onClick={() => setActiveModal(null)} className="text-primary-400 hover:text-accent bg-primary-50 hover:bg-primary-100 rounded-full p-2 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </div>
-            <div className="p-0 overflow-y-auto whitespace-nowrap">
-              <table className="w-full text-left border-collapse text-sm">
-                <thead>
-                  <tr className="bg-primary-600 border-b border-primary-700">
-                    {activeModal.requirementsTable.headers.map((h, i) => (
-                      <th key={i} className="p-4 font-semibold text-white uppercase tracking-wider text-xs border-r border-primary-500 last:border-0">{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-primary-100">
-                  {activeModal.requirementsTable.rows.map((r, ri) => (
-                    <tr key={ri} className="hover:bg-primary-50 transition-colors">
-                      {r.map((c, ci) => (
-                        <td key={ci} className="p-4 text-primary-700 font-medium border-r border-primary-100 last:border-0">{c}</td>
+      {/* Technical specifications (page-level tables) */}
+      {pageTables.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Technical Specifications</h2>
+          {pageTables.map((table) => (
+            <div key={table.id} className="panel p-0 overflow-hidden mb-8">
+              <div className="overflow-x-auto">
+                <table>
+                  {table.caption && <caption className="sr-only">{table.caption}</caption>}
+                  <thead>
+                    <tr>
+                      {table.columns.map((column) => (
+                        <th key={column.key} scope="col">
+                          {columnHeader(column)}
+                        </th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {table.rows.map((row, rowIdx) => (
+                      <tr key={rowIdx}>
+                        {table.columns.map((column, colIdx) => (
+                          colIdx === 0
+                            ? <th key={column.key} scope="row" className="text-value font-semibold">{formatCell(column, row)}</th>
+                            : <td key={column.key} className="text-value">{formatCell(column, row)}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="p-4 border-t border-primary-100 bg-surface text-right">
-               <button onClick={() => setActiveModal(null)} className="btn btn-primary text-sm py-2 px-6 shadow-sm">Done</button>
-            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Variants / sizes */}
+      {product.variants?.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Types &amp; Variants</h2>
+          <div className="grid grid-cols-1 gap-6">
+            {product.variants.map((variant) => {
+              const r = formatVariantRange(variant.range);
+              return (
+                <div key={variant.id} className="panel flex flex-col md:flex-row gap-6 items-center">
+                  {variant.image && (
+                    <div className="w-full md:w-32 h-32 shrink-0 bg-primary-50 rounded-md p-2 flex items-center justify-center">
+                      <img src={variant.image} alt={variant.name} {...VARIANT_IMAGE_SIZE[variant.image]} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                    </div>
+                  )}
+                  <div className="flex-grow w-full">
+                    <h3 className="mb-3">{variant.name}</h3>
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                      {variant.publishedSizeCount != null && (
+                        <div><dt className="inline text-label">Available Sizes: </dt><dd className="inline text-value">{variant.publishedSizeCount}</dd></div>
+                      )}
+                      {r.torque && <div><dt className="inline text-label">Torque: </dt><dd className="inline text-value">{r.torque}</dd></div>}
+                      {r.power && <div><dt className="inline text-label">Power: </dt><dd className="inline text-value">{r.power}</dd></div>}
+                      {r.bore && <div><dt className="inline text-label">Bore Dia: </dt><dd className="inline text-value">{r.bore}</dd></div>}
+                    </dl>
+                    <div className="flex flex-wrap gap-3 mt-4">
+                      {variant.tableId && (
+                        <button type="button" onClick={() => setActiveVariant(variant)} className="btn btn-outline text-sm">
+                          View Specifications
+                        </button>
+                      )}
+                      <Link to={quoteHref(variant.id)} className="btn btn-primary text-sm">
+                        Quote this Variant
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        </section>
+      )}
+
+      {/* Custom options */}
+      {product.customOptions?.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Custom Options</h2>
+          <ul className="panel space-y-3">
+            {product.customOptions.map((opt, i) => (
+              <li key={i} className="text-sm text-primary-700">
+                <span className="font-semibold">{opt.label}.</span>{' '}
+                {opt.note && <span className="text-primary-600">{opt.note}</span>}
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm text-primary-600 mt-4">
+            See our <Link to="/custom-manufacturing" className="text-primary-600 hover:text-accent font-medium">custom manufacturing page</Link> for options across our full product range.
+          </p>
+        </section>
+      )}
+
+      {/* Additional information (transitional free-text field) */}
+      {product.additionalInfo && (
+        <section className="container mb-16">
+          <div className="panel panel-notice text-sm text-primary-700">{product.additionalInfo}</div>
+        </section>
+      )}
+
+      {/* Applications */}
+      {product.applications?.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Applications</h2>
+          <ul className="flex flex-wrap gap-3">
+            {product.applications.map((app) => (
+              <li key={app} className="text-sm px-3 py-1.5 bg-primary-50 border border-primary-100 rounded-md text-primary-700">
+                {app}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Documents / downloads */}
+      {documents.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Documents &amp; Downloads</h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {documents.map((doc) => (
+              <li key={doc.id}>
+                <a
+                  href={doc.path}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="panel flex items-center gap-3 hover:border-primary-500 transition-colors"
+                >
+                  <Download size={20} className="text-accent shrink-0" aria-hidden="true" />
+                  <span className="text-sm font-medium text-primary-700">{doc.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm text-primary-600 mt-4">
+            <Link to="/downloads" className="text-primary-600 hover:text-accent font-medium">View all catalogue downloads</Link>
+          </p>
+        </section>
+      )}
+
+      {/* Related products */}
+      {relatedProducts.length > 0 && (
+        <section className="container mb-16">
+          <h2 className="mb-6">Related Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedProducts.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div className="container">
+        <QuoteCTA
+          title="Not sure which product you need?"
+          subtitle="Our team can help you select the right coupling or pulley for your application."
+        />
+      </div>
+
+      {/* Variant specification modal — native <dialog>, same pattern as SiteHeader's mobile menu */}
+      {product.variants?.some((v) => v.tableId) && (
+        <dialog
+          ref={modalRef}
+          onClose={() => setActiveVariant(null)}
+          onClick={(e) => { if (e.target === modalRef.current) setActiveVariant(null); }}
+          className="m-auto rounded-md w-full max-w-4xl max-h-[90vh] p-0 border-0 backdrop:bg-navy/40"
+        >
+          {activeVariant && modalTable && (
+            <div className="flex flex-col max-h-[90vh]">
+              <div className="flex justify-between items-center p-4 border-b border-primary-100">
+                <h3 className="text-lg font-semibold text-primary-700">{activeVariant.name} — Sizes</h3>
+                <button
+                  type="button"
+                  onClick={() => setActiveVariant(null)}
+                  className="p-2 text-primary-600 hover:text-accent"
+                >
+                  <span className="sr-only">Close</span>
+                  <X size={20} aria-hidden="true" />
+                </button>
+              </div>
+              <div className="overflow-auto">
+                <table>
+                  <thead>
+                    <tr>
+                      {modalTable.columns.map((c) => (
+                        <th key={c.key} scope="col">{columnHeader(c)}</th>
+                      ))}
+                      <th scope="col"><span className="sr-only">Action</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {modalTable.rows.map((row, ri) => {
+                      const sizeColumn = modalTable.columns.find((c) => c.kind === 'code');
+                      const sizeValue = sizeColumn && row[sizeColumn.key];
+                      return (
+                        <tr key={ri}>
+                          {modalTable.columns.map((c, ci) => (
+                            ci === 0
+                              ? <th key={c.key} scope="row" className="text-value font-semibold">{formatCell(c, row)}</th>
+                              : <td key={c.key} className="text-value">{formatCell(c, row)}</td>
+                          ))}
+                          <td>
+                            {sizeValue && (
+                              <Link to={quoteHref(activeVariant.id, sizeValue)} className="text-sm font-semibold text-primary-600 hover:text-accent whitespace-nowrap">
+                                Quote this size
+                              </Link>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-4 border-t border-primary-100 text-right">
+                <button type="button" onClick={() => setActiveVariant(null)} className="btn btn-primary text-sm">
+                  Done
+                </button>
+              </div>
+            </div>
+          )}
+        </dialog>
       )}
     </div>
   );

@@ -114,13 +114,13 @@ function buildEmailHTML(data) {
                       <tr>
                         <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 14px; vertical-align: top;">Email</td>
                         <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-size: 14px; font-weight: 500;">
-                          <a href="mailto:${sanitize(data.email)}" style="color: #19376D; text-decoration: none;">${sanitize(data.email)}</a>
+                          ${data.email ? `<a href="mailto:${sanitize(data.email)}" style="color: #19376D; text-decoration: none;">${sanitize(data.email)}</a>` : '—'}
                         </td>
                       </tr>
                       <tr>
                         <td style="padding: 12px 16px; color: #6B7280; font-size: 14px; vertical-align: top;">Phone</td>
                         <td style="padding: 12px 16px; color: #1F2937; font-size: 14px; font-weight: 500;">
-                          <a href="tel:${sanitize(data.phone)}" style="color: #19376D; text-decoration: none;">${sanitize(data.phone)}</a>
+                          ${data.phone ? `<a href="tel:${sanitize(data.phone)}" style="color: #19376D; text-decoration: none;">${sanitize(data.phone)}</a>` : '—'}
                         </td>
                       </tr>
                     </table>
@@ -151,8 +151,12 @@ function buildEmailHTML(data) {
                         <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-size: 14px; font-weight: 500;">${sanitize(data.quantity) || '—'}</td>
                       </tr>
                       <tr>
-                        <td style="padding: 12px 16px; color: #6B7280; font-size: 14px; vertical-align: top;">Description</td>
-                        <td style="padding: 12px 16px; color: #1F2937; font-size: 14px; line-height: 1.6;">${sanitize(data.description) || '—'}</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #6B7280; font-size: 14px; vertical-align: top;">Description</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB; color: #1F2937; font-size: 14px; line-height: 1.6;">${sanitize(data.description) || '—'}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 12px 16px; color: #6B7280; font-size: 14px; vertical-align: top;">Drawing / Reference</td>
+                        <td style="padding: 12px 16px; color: #1F2937; font-size: 14px; line-height: 1.6;">${sanitize(data.drawingReference) || '—'}</td>
                       </tr>
                     </table>
                   </td>
@@ -227,17 +231,20 @@ export default async function handler(req, res) {
       drivenShaftDia,
       motorType,
       dutyHours,
+      // Optional free-text drawing/reference note (no file upload backend — see src/pages/Enquiry.jsx).
+      drawingReference,
     } = req.body;
 
-    // --- Validate required fields ---
+    // --- Validate required fields (the 4 universal fields: name, phone-or-email, product, quantity) ---
     const errors = [];
     if (!fullName || !fullName.trim()) errors.push('Full Name is required');
-    if (!email || !email.trim()) errors.push('Email Address is required');
-    if (!phone || !phone.trim()) errors.push('Phone Number is required');
+    if ((!email || !email.trim()) && (!phone || !phone.trim())) errors.push('Provide an email address or a phone number');
+    if (!productCategory || !productCategory.trim()) errors.push('Product is required');
+    if (!quantity || !quantity.trim()) errors.push('Quantity is required');
 
     // Basic email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email && !emailRegex.test(email.trim())) {
+    if (email && email.trim() && !emailRegex.test(email.trim())) {
       errors.push('Invalid email address format');
     }
 
@@ -280,6 +287,7 @@ export default async function handler(req, res) {
       drivenShaftDia: drivenShaftDia?.trim(),
       motorType: motorType?.trim(),
       dutyHours: dutyHours?.trim(),
+      drawingReference: drawingReference?.trim(),
     };
 
     const htmlContent = buildEmailHTML(data);
@@ -290,7 +298,7 @@ export default async function handler(req, res) {
       to: COMPANY_EMAIL,
       subject: `New Enquiry: ${data.productCategory} — ${data.fullName}`,
       html: htmlContent,
-      replyTo: data.email,
+      ...(data.email ? { replyTo: data.email } : {}),
     });
 
     return res.status(200).json({ success: true, message: 'Enquiry submitted successfully' });

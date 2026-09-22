@@ -2,64 +2,62 @@ import React from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
 import StatCard from '../components/StatCard';
-import CTASection from '../components/CTASection';
+import QuoteCTA from '../components/QuoteCTA';
 import { companyData } from '../data/company';
-import { Factory, Award, Target, Globe2 } from 'lucide-react';
+import { site } from '../data/site';
+import { Factory, Users2, Building2, Wallet } from 'lucide-react';
 
+// Original About composition restored (commit d1e8746): navy hero card, stats grid, leadership/
+// capacity/quality detail cards, closing CTA. The stats grid and capacity card previously carried
+// unverified claims (ISO 9001, "SE Asia" markets, "OEM/OBM", production-line count, QC staffing) —
+// those are not restored; every figure below comes straight from src/data/company.js.
 export default function About() {
   return (
     <div className="bg-surface pb-0 pt-8">
-      <div className="container mx-auto px-4 mb-4">
+      <div className="container mb-4">
         <Breadcrumb items={[{ label: 'About Us' }]} />
       </div>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 mb-20">
+      {/* Hero */}
+      <section className="container mb-20">
         <div className="bg-primary-700 rounded-2xl overflow-hidden shadow-2xl relative">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
-
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 p-12 lg:p-20 flex flex-col justify-center relative z-10">
-              <h1 className="text-4xl lg:text-5xl font-bold font-heading text-white mb-6">Lakshmi Pulley — Our Legacy of Excellence</h1>
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading text-white mb-6">About {site.name}</h1>
               <p className="text-primary-100 text-lg leading-relaxed">
                 {companyData.description}
               </p>
             </div>
-            <div className="lg:w-1/2 relative min-h-[300px] lg:min-h-auto">
-              <img src="/Assets/ALL.png" alt="Lakshmi Pulleys Factory" className="absolute inset-0 w-200 h-full object-cover" />
+            <div className="lg:w-1/2 relative min-h-[300px]">
+              <img src="/images/site/about-hero-1280.webp" srcSet="/images/site/about-hero-640.webp 640w, /images/site/about-hero-960.webp 960w, /images/site/about-hero-1280.webp 1280w" sizes="800px" width="1280" height="640" fetchPriority="high" alt="Lakshmi Pulleys factory" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-transparent to-primary-700/80"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Company Stats Grid */}
-      <section className="container mx-auto px-4 mb-24">
+      {/* Company Stats — verified figures only */}
+      <section className="container mb-24">
         <SectionHeading title="Company At A Glance" className="text-center" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard icon={Factory} value={companyData.established} label="Year Established" />
-          <StatCard icon={Award} value="ISO 9001" label="Certification" />
-          <StatCard icon={Globe2} value="SE Asia" label="Main Markets" />
-          <StatCard icon={Target} value="OEM/OBM" label="Contract Mfg." />
+          <StatCard icon={Factory} value={companyData.established} label="Established" />
+          <StatCard icon={Users2} value={companyData.stats.employees} label="Employees" />
+          <StatCard icon={Building2} value={companyData.stats.factorySize} label="Facility Size" />
+          <StatCard icon={Wallet} value={companyData.stats.revenue} label="Annual Revenue" />
         </div>
       </section>
 
-      {/* Detailed Info Cards */}
-      <section className="bg-surface-alt py-24 mb-0 border-t border-primary-100">
-        <div className="container mx-auto px-4">
+      {/* Detail cards */}
+      <section className="bg-surface-alt py-24 border-t border-primary-100">
+        <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-            {/* Leadership & Identity */}
             <div className="bg-white p-8 rounded-xl border border-primary-100 shadow-sm">
-              <h3 className="text-2xl font-bold font-heading text-primary-700 mb-6 pb-4 border-b border-primary-100">Identity & Leadership</h3>
+              <h3 className="mb-6 pb-4 border-b border-primary-100">Identity &amp; Leadership</h3>
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Entity</div>
-                  <div className="col-span-2 text-primary-700 font-medium">{companyData.name}</div>
-                </div>
-                <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
-                  <div className="text-sm font-semibold text-primary-500 uppercase">Type</div>
-                  <div className="col-span-2 text-primary-700 font-medium">Manufacturer (Sole proprietorship)</div>
+                  <div className="col-span-2 text-primary-700 font-medium">{site.name}</div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Leadership</div>
@@ -75,21 +73,16 @@ export default function About() {
               </div>
             </div>
 
-            {/* Industrial Capacity */}
             <div className="bg-white p-8 rounded-xl border border-primary-100 shadow-sm">
-              <h3 className="text-2xl font-bold font-heading text-primary-700 mb-6 pb-4 border-b border-primary-100">Industrial Capacity</h3>
+              <h3 className="mb-6 pb-4 border-b border-primary-100">Industrial Capacity</h3>
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Facility Site</div>
-                  <div className="col-span-2 text-primary-700 font-medium">{companyData.stats.factorySize} in India</div>
+                  <div className="col-span-2 text-primary-700 font-medium">{companyData.stats.factorySize}</div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Employees</div>
-                  <div className="col-span-2 text-primary-700 font-medium">{companyData.stats.employees} People (<span className="text-sm">Includes 5-10 QC Staff</span>)</div>
-                </div>
-                <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
-                  <div className="text-sm font-semibold text-primary-500 uppercase">Prod. Lines</div>
-                  <div className="col-span-2 text-primary-700 font-medium">3 Active Lines</div>
+                  <div className="col-span-2 text-primary-700 font-medium">{companyData.stats.employees}</div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 pb-2">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Sales Volume</div>
@@ -98,10 +91,9 @@ export default function About() {
               </div>
             </div>
 
-            {/* Quality Statement (Full Width Span) */}
             <div className="col-span-1 lg:col-span-2 bg-primary-600 text-white p-8 md:p-12 rounded-xl shadow-lg mt-4 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500 rounded-full mix-blend-multiply opacity-50 -translate-y-1/2 translate-x-1/4"></div>
-              <h3 className="text-2xl font-bold font-heading mb-6 relative z-10">Quality Control Guarantee</h3>
+              <h3 className="text-white mb-6 relative z-10">Quality Control Guarantee</h3>
               <p className="text-lg text-primary-100 leading-relaxed relative z-10 max-w-4xl">
                 {companyData.qualityStatement}
               </p>
@@ -111,7 +103,7 @@ export default function About() {
         </div>
       </section>
 
-      <CTASection title="Discover Our Products" subtitle="Explore our wide range of power transmission solutions manufactured with the highest quality standards." primaryButtonText="View Products" primaryButtonLink="/products" />
+      <QuoteCTA title="Discover Our Products" subtitle="Explore our wide range of power transmission solutions manufactured with the highest quality standards." to="/products" buttonText="View Products" />
     </div>
   );
 }

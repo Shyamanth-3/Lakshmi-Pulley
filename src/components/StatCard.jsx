@@ -1,11 +1,12 @@
 import React from 'react';
 
+// Restored from git history (commit d1e8746) — used by About's "Company At A Glance" grid.
 export default function StatCard({ value, label, icon: Icon }) {
   return (
     <div className="bg-white p-6 rounded-xl border border-primary-100 shadow-sm flex items-center gap-5">
       {Icon && (
         <div className="w-14 h-14 bg-primary-50 rounded-lg flex items-center justify-center text-accent shrink-0">
-          <Icon size={28} />
+          <Icon size={28} aria-hidden="true" />
         </div>
       )}
       <div>
