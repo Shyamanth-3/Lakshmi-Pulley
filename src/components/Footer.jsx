@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <nav aria-label="Footer quick links">
             <h4 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Quick Links</h4>
             <ul className="space-y-3">
               {site.nav.footerQuickLinks.map(link => (
@@ -38,10 +38,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Products */}
-          <div>
+          {/* Products — derived from src/data/products.js via site.js's productLinks, no second list here */}
+          <nav aria-label="Footer products">
             <h4 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Our Products</h4>
             <ul className="space-y-3">
               {productLinks.map(link => (
@@ -53,7 +53,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Contact Col */}
           <div>

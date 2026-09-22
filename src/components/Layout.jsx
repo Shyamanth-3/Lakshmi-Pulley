@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Navbar from './Navbar';
+import SiteHeader from './SiteHeader';
 import Footer from './Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
@@ -7,7 +7,6 @@ import { applySeo, getSeo } from '../seo';
 
 export default function Layout() {
   const location = useLocation();
-  const isHome = location.pathname === '/';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -19,8 +18,8 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className={`flex-grow bg-surface ${isHome ? '' : 'pt-20'}`}>
+      <SiteHeader />
+      <main className="flex-grow bg-surface">
         <Outlet />
       </main>
       <Footer />
