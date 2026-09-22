@@ -58,6 +58,13 @@ const PAGES = {
     crumb: 'Contact Us',
     jsonLd: ['breadcrumbs'],
   },
+  // Post-submission confirmation, not a marketing page: noindex, no OG/Twitter/JSON-LD (see headTags).
+  '/enquiry/thank-you': {
+    title: `Enquiry Submitted | ${BRAND}`,
+    description: `Your enquiry to ${BRAND} was submitted.`,
+    noindex: true,
+    jsonLd: [],
+  },
 };
 
 const NOT_FOUND = {
@@ -83,10 +90,14 @@ const breadcrumbList = (items) => ({
   itemListElement: items.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE_ORIGIN}${c.path}` })),
 });
 
-// Every public, indexable route, in sitemap order. Product routes come from the canonical product data.
+// Every route that gets a prerendered HTML file (so direct links/refreshes work on Vercel).
+// Product routes come from the canonical product data. Includes noindex utility pages (thank-you).
 export const publicRoutes = () => [
-  '/', '/about', '/products', ...products.map((p) => `/products/${p.slug}`), '/enquiry', '/contact',
+  '/', '/about', '/products', ...products.map((p) => `/products/${p.slug}`), '/enquiry', '/contact', '/enquiry/thank-you',
 ];
+
+// The indexable subset that belongs in the sitemap — excludes noindex pages like the thank-you page.
+export const sitemapRoutes = () => publicRoutes().filter((path) => !getSeo(path).noindex);
 
 export function getSeo(pathname) {
   const path = normalizePath(pathname);
@@ -104,7 +115,13 @@ export function getSeo(pathname) {
   const jsonLd = page.jsonLd.map((kind) => (kind === 'organization'
     ? organization()
     : breadcrumbList([{ name: 'Home', path: '/' }, ...crumbs])));
-  return { title: page.title, description: page.description, canonical: `${SITE_ORIGIN}${path === '/' ? '/' : path}`, jsonLd };
+  return {
+    title: page.title,
+    description: page.description,
+    canonical: `${SITE_ORIGIN}${path === '/' ? '/' : path}`,
+    jsonLd,
+    ...(page.noindex ? { noindex: true } : {}),
+  };
 }
 
 // Head tags as data, so the prerenderer and the browser produce exactly the same set.

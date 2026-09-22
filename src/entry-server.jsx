@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from './App.jsx';
 
-export { getSeo, renderHead, publicRoutes, SITE_ORIGIN } from './seo.js';
+export { getSeo, renderHead, publicRoutes, sitemapRoutes, SITE_ORIGIN } from './seo.js';
 
 export function render(url) {
   return renderToString(

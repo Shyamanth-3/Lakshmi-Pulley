@@ -21,7 +21,7 @@ if (!template.includes(PLACEHOLDER_HEAD) || !template.includes(EMPTY_ROOT)) {
   throw new Error('dist/index.html is not the client build template (missing head placeholder or empty root). Run `vite build` first.');
 }
 
-const { render, getSeo, renderHead, publicRoutes, SITE_ORIGIN } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href);
+const { render, getSeo, renderHead, publicRoutes, sitemapRoutes, SITE_ORIGIN } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href);
 
 const page = (url) => template.replace(PLACEHOLDER_HEAD, renderHead(getSeo(url))).replace(EMPTY_ROOT, `<div id="root">${render(url)}</div>`);
 const write = (file, content) => {
@@ -53,8 +53,8 @@ if (problems.length) throw new Error(`Prerender metadata problems:\n - ${problem
 // "/404" is not a real page, so the router renders the catch-all NotFound route (noindex head, no canonical).
 write('404.html', page('/404'));
 
-// ---- sitemap.xml: exactly the public routes, canonical www URLs, no duplicates ----
-const urls = routes.map((r) => getSeo(r).canonical);
+// ---- sitemap.xml: indexable routes only (noindex pages like /enquiry/thank-you are excluded), canonical www URLs, no duplicates ----
+const urls = sitemapRoutes().map((r) => getSeo(r).canonical);
 if (new Set(urls).size !== urls.length) throw new Error('Duplicate URL in sitemap');
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n  </url>`).join('\n')}\n</urlset>\n`);
 
