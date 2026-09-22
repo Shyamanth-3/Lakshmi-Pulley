@@ -7,6 +7,7 @@ import { applySeo, getSeo } from '../seo';
 
 export default function Layout() {
   const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -19,7 +20,9 @@ export default function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
       <SiteHeader />
-      <main className="flex-grow bg-surface">
+      {/* SiteHeader is fixed (original behavior), so every page except Home (whose hero has its own
+          top padding to sit under the transparent header) needs this offset. */}
+      <main className={`flex-grow bg-surface ${isHome ? '' : 'pt-20'}`}>
         <Outlet />
       </main>
       <Footer />

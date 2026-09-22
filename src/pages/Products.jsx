@@ -3,8 +3,12 @@ import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
 import ProductCard from '../components/ProductCard';
 import QuoteCTA from '../components/QuoteCTA';
+import { Link } from 'react-router-dom';
 import { products, categories, getCategory } from '../data/products';
 
+// Original Products composition restored (commit d1e8746): pill filters, product grid, closing CTA.
+// The old intro copy claimed "20 years" and "state-of-the-art CNC facilities" — neither is in
+// canonical data, so the subtitle below states only verified counts instead.
 export default function Products() {
   const [activeFilter, setActiveFilter] = useState('All');
 
@@ -35,9 +39,9 @@ export default function Products() {
               type="button"
               aria-pressed={activeFilter === category}
               onClick={() => setActiveFilter(category)}
-              className={`px-6 py-2 rounded-md text-sm font-semibold transition-colors ${
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
                 activeFilter === category
-                  ? 'bg-primary-700 text-white'
+                  ? 'bg-primary-700 text-white shadow-md'
                   : 'bg-primary-50 text-primary-600 hover:bg-primary-100 hover:text-primary-700'
               }`}
             >
@@ -54,15 +58,17 @@ export default function Products() {
         </div>
 
         {filteredProducts.length === 0 && (
-          <div className="text-center py-20 text-primary-500">
+          <div className="text-center py-20 text-primary-400">
             No products found in this category.
           </div>
         )}
+
+        <p className="text-sm text-primary-600 mt-10">
+          Looking for a specific catalogue? <Link to="/downloads" className="text-primary-600 hover:text-accent font-medium">Browse all catalogue downloads</Link>, or see our <Link to="/custom-manufacturing" className="text-primary-600 hover:text-accent font-medium">custom manufacturing options</Link>.
+        </p>
       </section>
 
-      <div className="container mb-20">
-        <QuoteCTA />
-      </div>
+      <QuoteCTA />
     </div>
   );
 }

@@ -214,6 +214,9 @@ export default function ProductDetail() {
               </li>
             ))}
           </ul>
+          <p className="text-sm text-primary-600 mt-4">
+            See our <Link to="/custom-manufacturing" className="text-primary-600 hover:text-accent font-medium">custom manufacturing page</Link> for options across our full product range.
+          </p>
         </section>
       )}
 
@@ -257,6 +260,9 @@ export default function ProductDetail() {
               </li>
             ))}
           </ul>
+          <p className="text-sm text-primary-600 mt-4">
+            <Link to="/downloads" className="text-primary-600 hover:text-accent font-medium">View all catalogue downloads</Link>
+          </p>
         </section>
       )}
 

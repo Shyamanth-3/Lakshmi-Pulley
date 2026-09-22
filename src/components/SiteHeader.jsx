@@ -1,19 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { site } from '../data/site';
 
 const navLinks = site.nav.main;
 
-// Restrained, sticky engineering-catalogue header. No transparency/overlay, no blur, no shadow —
-// the header sits in normal document flow, so no page needs manual top-padding to clear it.
+// Original Navbar visual/interaction (fixed, transparent-over-hero on home, solid+shadow on scroll)
+// restored from git history (commit d1e8746), rebuilt on the current data layer and routes. The mobile
+// panel uses a native <dialog> instead of the old plain conditional <div> for a real focus trap and
+// Escape-to-close — everything else (positioning, colors, shadow, scroll behavior) matches the original.
 export default function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dialogRef = useRef(null);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
   const close = () => setIsOpen(false);
 
-  // <dialog>.showModal() gives the mobile menu a native, accessible modal for free: focus moves
-  // into it and is trapped, Escape closes it, and focus returns to the toggle button on close.
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -21,39 +30,56 @@ export default function SiteHeader() {
     if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
 
-  const linkClass = ({ isActive }) =>
-    `text-sm font-medium transition-colors ${isActive ? 'text-accent' : 'text-primary-600 hover:text-accent'}`;
+  const isTransparent = isHome && !isScrolled;
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-primary-100">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isTransparent ? 'bg-transparent py-2' : 'bg-white border-b border-primary-100 shadow-sm py-0'
+    }`}>
       <div className="container">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center shrink-0">
+        <div className="flex items-center justify-between h-20">
+          <Link to="/" className="flex items-center gap-3">
             <img
               src="/Assets/logo3.png"
-              alt="Lakshmi Pulley – Lakshmi Engineering Enterprises"
-              width="242"
-              height="40"
-              className="h-10 w-auto object-contain"
+              alt="Lakshmi Pulley – Lakshmi Engineering Enterprises Logo"
+              width="406"
+              height="67"
+              className="h-14 w-auto object-contain transition-all duration-300"
             />
           </Link>
 
-          <nav aria-label="Primary" className="hidden md:flex items-center gap-8">
+          <nav aria-label="Primary" className="hidden md:flex flex-1 items-center justify-center gap-8">
             {navLinks.map((link) => (
-              <NavLink key={link.path} to={link.path} end={link.path === '/'} className={linkClass}>
+              <NavLink
+                key={link.path}
+                to={link.path}
+                end={link.path === '/'}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive
+                      ? (isTransparent ? 'text-white border-b-2 border-white pb-1' : 'text-accent border-b-2 border-accent pb-1')
+                      : (isTransparent ? 'text-white/90 hover:text-white' : 'text-primary-600 hover:text-accent')
+                  }`
+                }
+              >
                 {link.name}
               </NavLink>
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link to="/enquiry" className="hidden md:inline-flex btn btn-primary text-sm">
+            <Link
+              to="/enquiry"
+              className={`hidden md:inline-flex btn text-sm shadow-md hover:shadow-lg ${
+                isTransparent ? 'bg-white/10 text-white hover:bg-white/20 border border-white/20 hover:border-white/40' : 'btn-primary'
+              }`}
+            >
               Get a Quote
             </Link>
 
             <button
               type="button"
-              className="md:hidden p-2 -mr-2 text-primary-600"
+              className={`md:hidden p-2 transition-colors ${isTransparent ? 'text-white hover:text-gray-200' : 'text-primary-600 hover:text-primary-700'}`}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               onClick={() => setIsOpen((open) => !open)}
@@ -69,12 +95,10 @@ export default function SiteHeader() {
         id="mobile-menu"
         ref={dialogRef}
         onClose={close}
-        onClick={(e) => {
-          if (e.target === dialogRef.current) close(); // click on the backdrop
-        }}
-        className="m-0 mt-16 ml-auto h-[calc(100vh-4rem)] max-h-none w-full max-w-none sm:w-80 sm:max-w-[80vw] p-0 border-0 bg-white backdrop:bg-black/40"
+        onClick={(e) => { if (e.target === dialogRef.current) close(); }}
+        className="m-0 mt-20 ml-0 w-full max-w-none h-auto max-h-none p-0 border-0 bg-white border-b border-primary-100 shadow-lg backdrop:bg-transparent"
       >
-        <nav aria-label="Mobile" className="flex flex-col p-4 gap-1">
+        <nav aria-label="Mobile" className="flex flex-col py-4 px-4 gap-2">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
@@ -82,7 +106,7 @@ export default function SiteHeader() {
               end={link.path === '/'}
               onClick={close}
               className={({ isActive }) =>
-                `min-h-11 flex items-center px-4 rounded-md text-sm font-medium transition-colors ${
+                `px-4 py-3 rounded-md text-sm font-medium transition-colors flex justify-between items-center min-h-11 ${
                   isActive ? 'bg-primary-50 text-accent' : 'text-primary-600 hover:bg-primary-50'
                 }`
               }
@@ -90,9 +114,11 @@ export default function SiteHeader() {
               {link.name}
             </NavLink>
           ))}
-          <Link to="/enquiry" onClick={close} className="btn btn-primary justify-center mt-4">
-            Get a Quote
-          </Link>
+          <div className="mt-4 px-4 pb-2">
+            <Link to="/enquiry" onClick={close} className="w-full btn btn-primary flex justify-center py-3">
+              Get a Quote
+            </Link>
+          </div>
         </nav>
       </dialog>
     </header>

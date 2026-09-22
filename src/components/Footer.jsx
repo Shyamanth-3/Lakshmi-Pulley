@@ -18,13 +18,16 @@ export default function Footer() {
               <img src="/Assets/logo3.png" alt="Lakshmi Pulley – Lakshmi Engineering Enterprises Logo" width="406" height="67" className="h-14 w-auto mix-blend-multiply" />
             </div>
             <p className="text-primary-600 text-sm leading-relaxed mb-6 mt-4">
-              {companyData.tagline}. Established {companyData.established}.
+              {companyData.tagline}. Delivering excellence since {companyData.established}.
             </p>
+            <div className="flex items-center gap-2 mb-6">
+              <span className="font-semibold px-2 py-1 bg-primary-600 text-white rounded text-xs border border-primary-500">{companyData.stats.certifications} Certified</span>
+            </div>
           </div>
 
           {/* Quick Links */}
           <nav aria-label="Footer quick links">
-            <h4 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Quick Links</h4>
+            <h2 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Quick Links</h2>
             <ul className="space-y-3">
               {site.nav.footerQuickLinks.map(link => (
                 <li key={link.name}>
@@ -37,11 +40,13 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Products — derived from src/data/products.js via site.js's productLinks, no second list here */}
+          {/* Products — same 5-item footer list as the original: first 5 of src/data/products.js in
+              catalogue order (Jaw, Pin Bush, Tyre, Gear, V-Pulleys). Still one source of truth — this
+              is a slice of productLinks, not a second hard-coded list. */}
           <nav aria-label="Footer products">
-            <h4 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Our Products</h4>
+            <h2 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Our Products</h2>
             <ul className="space-y-3">
-              {productLinks.map(link => (
+              {productLinks.slice(0, 5).map(link => (
                 <li key={link.name}>
                   <Link to={link.path} className="text-primary-600 hover:text-accent flex items-center transition-colors text-sm font-medium">
                     <ChevronRight size={14} className="mr-2 text-accent" />
@@ -54,7 +59,7 @@ export default function Footer() {
 
           {/* Contact Col */}
           <div>
-            <h4 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Contact Us</h4>
+            <h2 className="text-lg font-bold mb-6 font-heading text-primary-700 border-b border-primary-100 pb-2 inline-block">Contact Us</h2>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-primary-600 text-sm font-medium">
                 <MapPin className="text-accent shrink-0 mt-1" size={18} />
@@ -86,9 +91,6 @@ export default function Footer() {
           <p className="text-primary-500 font-medium text-sm" suppressHydrationWarning>
             &copy; {currentYear} {site.name}. All Rights Reserved.
           </p>
-          <Link to="/privacy" className="text-primary-500 hover:text-accent text-sm font-medium transition-colors">
-            Privacy Policy
-          </Link>
         </div>
       </div>
     </footer>

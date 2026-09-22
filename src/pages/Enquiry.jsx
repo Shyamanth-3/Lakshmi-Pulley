@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
 import { site, enquiryPhones, enquiryProductOptions } from '../data/site';
@@ -282,6 +282,9 @@ export default function Enquiry() {
                 </div>
 
                 {/* 6. Review / submit — everything above stays visible and editable, so there's no separate review step */}
+                <p className="text-sm text-primary-600 mb-4">
+                  By submitting this form you agree to our <Link to="/privacy" className="text-primary-600 hover:text-accent font-medium">Privacy Policy</Link>.
+                </p>
                 <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-primary-100">
                   <button type="button" onClick={startOver} className="btn btn-outline">
                     Start Over

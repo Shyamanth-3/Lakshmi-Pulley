@@ -24,33 +24,33 @@
   src: url("/fonts/ibm-plex-sans-600.woff2") format("woff2");
 }
 
-/* Design tokens — engineering-catalogue direction (Phase 3 design spec).
-   Primary/accent keep the existing 50/100/500/600/700 + accent scale so every
-   component already using text-primary-700, bg-accent, etc. picks up the new
-   values with no class-name changes. */
+/* Design tokens — restored Lakshmi Pulley brand identity (original navy/gold, confirmed against the
+   live production site's shipped CSS) on top of the Phase 4 restrained/flat design principles.
+   Primary/accent keep the existing 50/100/500/600/700 + accent scale so every component already
+   using text-primary-700, bg-accent, etc. picks up the values with no class-name changes. */
 @theme {
-  --color-primary-50: #e7eff8;   /* spec "subtle" */
-  --color-primary-100: #d3d9e0;  /* spec "border" */
-  --color-primary-500: #0b4f9c;  /* unused directly today; kept equal to primary so nothing looks half-updated */
-  --color-primary-600: #0b4f9c;  /* spec "primary" */
-  --color-primary-700: #083c77;  /* spec "hover" (also darkest text/heading tone) */
+  --color-primary-50: #f0f4f8;
+  --color-primary-100: #d9e2ec;
+  --color-primary-500: #334e68;
+  --color-primary-600: #243b53;
+  --color-primary-700: #102a43;  /* original navy */
 
-  --color-accent: #b45309;       /* spec accent — attention only */
-  --color-accent-hover: color-mix(in srgb, var(--color-accent) 85%, black);
+  --color-accent: #d4a634;       /* original gold */
+  --color-accent-hover: #b88d29;
 
-  --color-bg: #f6f7f9;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-alt: #eef1f4;
-  --color-navy: #0f2a44;
+  --color-surface-alt: #f8fafc;
+  --color-navy: #102a43;
 
-  --color-text: #15202b;
+  --color-text: #0f172a;
   --color-text-muted: #4b5866;
   --color-text-inverse-muted: #a9b8c8;
 
-  --color-border: #d3d9e0;
-  --color-border-strong: #7a8794;
+  --color-border: #d9e2ec;
+  --color-border-strong: #829ab1;
 
-  --color-focus: #0b4f9c;
+  --color-focus: #243b53;
   --color-focus-inverse: #ffc857;
 
   --color-success: #1d7a35;
@@ -64,8 +64,8 @@
   --font-heading: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --radius-control: 0.25rem; /* 4px — buttons, inputs */
-  --radius-card: 0.375rem;   /* 6px — cards, panels */
+  --radius-control: 0.25rem; /* 4px — buttons, inputs (matches original .btn radius) */
+  --radius-card: 0.75rem;    /* 12px — cards, panels (original used rounded-lg/xl/2xl on cards) */
   --radius-table: 0;
 
   --container-width: 1200px;
@@ -88,15 +88,15 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 700; /* original weight; IBM Plex Sans only ships 400/500/600 so the browser synthesizes bold */
     color: var(--color-primary-700);
     line-height: 1.25;
   }
 
-  /* Fluid type scale (spec: display 32-48 / h1 28-40 / h2 22-30 / h3 18-20) */
+  /* Fluid on mobile, matches the original fixed sizes (h1 2.5rem/h2 2rem/h3 1.5rem) at desktop width. */
   h1 { font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); }
-  h2 { font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem); }
-  h3 { font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem); }
+  h2 { font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2rem); }
+  h3 { font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem); }
 
   p, li { font-size: 1rem; } /* body 16-17: browser default 16px zoom covers the range */
 

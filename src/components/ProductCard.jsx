@@ -6,7 +6,7 @@ import { getCategory } from '../data/products';
 export default function ProductCard({ product }) {
   const image = product.images[0];
   return (
-    <div className="bg-white rounded-lg border border-primary-100 hover:border-primary-500 overflow-hidden transition-colors group flex flex-col h-full">
+    <div className="bg-white rounded-lg border border-primary-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full hover:-translate-y-1">
       {/* Product Image Component */}
       <div className="aspect-[4/3] bg-primary-50 relative overflow-hidden flex items-center justify-center p-4">
         <img
@@ -18,9 +18,10 @@ export default function ProductCard({ product }) {
           alt={image.alt}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-contain mix-blend-multiply"
+          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute top-4 left-4 bg-white uppercase text-[10px] font-bold px-3 py-1 rounded-md text-primary-600 border border-primary-200">
+        {/* Solid badge, not the original's backdrop-blur — blur stays excluded per the design-system rules */}
+        <div className="absolute top-4 left-4 bg-white tracking-wider uppercase text-[10px] font-bold px-3 py-1 rounded-full text-primary-600 border border-primary-200">
           {getCategory(product.category).name}
         </div>
       </div>

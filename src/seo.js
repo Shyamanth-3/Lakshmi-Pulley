@@ -91,7 +91,8 @@ const NOT_FOUND = {
   noindex: true,
 };
 
-// Only facts already published on the site: no address (conflicting values), no founding year, no ratings.
+// Only facts already published on the site: the published address/phone (not the conflicting alternates
+// recorded in site.js's dataSource.conflicts), no founding year, no ratings, no social profiles.
 const organization = () => ({
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -100,6 +101,12 @@ const organization = () => ({
   url: `${SITE_ORIGIN}/`,
   logo: IMAGE.url,
   email: site.contact.emails.find((e) => e.endsWith('@lakshmipulley.com')),
+  telephone: site.contact.phones[0],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.contact.address.line1}, ${site.contact.address.line2}`,
+    addressCountry: site.contact.address.country,
+  },
 });
 
 const breadcrumbList = (items) => ({
@@ -107,6 +114,21 @@ const breadcrumbList = (items) => ({
   '@type': 'BreadcrumbList',
   itemListElement: items.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE_ORIGIN}${c.path}` })),
 });
+
+// Only the fields canonical product data actually supports: name, description, image, brand, url.
+// No price/offers/availability/SKU/GTIN/MPN/rating — none of that exists in products.js.
+const productSchema = (product, canonical) => {
+  const image = product.images[0];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.summary,
+    image: `${SITE_ORIGIN}${image.src}-${image.defaultWidth}.webp`,
+    brand: { '@type': 'Brand', name: BRAND },
+    url: canonical,
+  };
+};
 
 // Every route that gets a prerendered HTML file (so direct links/refreshes work on Vercel).
 // Product routes come from the canonical product data. Includes noindex utility pages (thank-you).
@@ -131,13 +153,15 @@ export function getSeo(pathname) {
   }
   if (!page) return NOT_FOUND;
 
+  const canonical = `${SITE_ORIGIN}${path === '/' ? '/' : path}`;
   const jsonLd = page.jsonLd.map((kind) => (kind === 'organization'
     ? organization()
     : breadcrumbList([{ name: 'Home', path: '/' }, ...crumbs])));
+  if (product) jsonLd.push(productSchema(product, canonical));
   return {
     title: page.title,
     description: page.description,
-    canonical: `${SITE_ORIGIN}${path === '/' ? '/' : path}`,
+    canonical,
     jsonLd,
     ...(page.noindex ? { noindex: true } : {}),
   };
