@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Users, Award, Settings, ArrowRight } from 'lucide-react';
-import { productsData } from '../data/products';
+import { products } from '../data/products';
 import { companyData } from '../data/company';
 import ProductCard from '../components/ProductCard';
 import SectionHeading from '../components/SectionHeading';
@@ -84,8 +84,8 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {productsData.slice(0, 3).map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {products.slice(0, 3).map((product) => (
+              <ProductCard key={product.slug} product={product} />
             ))}
           </div>
 

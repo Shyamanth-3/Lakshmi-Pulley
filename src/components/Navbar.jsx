@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { companyData } from '../data/company';
+import { site } from '../data/site';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +20,7 @@ export default function Navbar() {
 
   const isTransparent = isHome && !isScrolled;
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Products', path: '/products' },
-    { name: 'Enquiry', path: '/enquiry' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const navLinks = site.nav.main;
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${

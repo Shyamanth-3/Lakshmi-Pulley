@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
-import { companyData } from '../data/company';
+import { site, enquiryPhones, enquiryProductOptions } from '../data/site';
+import { getProductByName } from '../data/products';
 import { Send, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 
 const initialFormData = {
@@ -9,7 +10,7 @@ const initialFormData = {
   companyName: '',
   email: '',
   phone: '',
-  productCategory: 'Flexible Jaw Couplings',
+  productCategory: enquiryProductOptions[0],
   quantity: '',
   description: '',
   // Pulley fields
@@ -67,6 +68,9 @@ export default function Enquiry() {
       setIsSubmitting(false);
     }
   };
+
+  const rfqFields = getProductByName(formData.productCategory)?.rfq.fields;
+  const isPulleyEnquiry = rfqFields === 'v-pulley' || rfqFields === 'timing-pulley';
 
   return (
     <div className="bg-surface pb-20 pt-8">
@@ -146,14 +150,9 @@ export default function Enquiry() {
                       value={formData.productCategory}
                       onChange={handleChange}
                     >
-                      <option value="Flexible Jaw Couplings">Flexible Jaw Couplings</option>
-                      <option value="Flexible Pin Bush Couplings">Flexible Pin Bush Couplings</option>
-                      <option value="Flexible Tyre Couplings">Flexible Tyre Couplings</option>
-                      <option value="Gear Couplings">Gear Couplings</option>
-                      <option value="LHRC Couplings">LHRC Couplings</option>
-                      <option value="Resilient Grid Couplings">Resilient Grid Couplings</option>
-                      <option value="V-Pulleys">V-Pulleys</option>
-                      <option value="EasyFIT(Taper) Timing Pulleys">EasyFIT(Taper) Timing Pulleys</option>
+                      {enquiryProductOptions.map((name) => (
+                        <option key={name} value={name}>{name}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -172,7 +171,7 @@ export default function Enquiry() {
                   <span className="text-xs font-normal bg-primary-50 px-2 py-1 rounded text-primary-500">Optional</span>
                 </h3>
 
-                {['V-Pulleys', 'EasyFIT(Taper) Timing Pulleys'].includes(formData.productCategory) ? (
+                {isPulleyEnquiry ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                     <div>
                       <label className="block text-sm font-semibold text-primary-600 mb-2">Size of Pulley on Motor</label>
@@ -241,11 +240,11 @@ export default function Enquiry() {
                 <div className="space-y-4">
                   <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/10">
                     <div className="font-semibold text-accent mb-1">Direct Contact</div>
-                    {companyData.contact.phones.slice(0, 2).map((phone, idx) => (
+                    {enquiryPhones.map((phone, idx) => (
                       <div key={idx} className="text-sm text-primary-100">{phone}</div>
                     ))}
                     <div className="mt-2">
-                      {companyData.contact.email.map((e, idx) => (
+                      {site.contact.emails.map((e, idx) => (
                         <div key={`e-${idx}`} className="text-sm text-primary-100">{e}</div>
                       ))}
                     </div>

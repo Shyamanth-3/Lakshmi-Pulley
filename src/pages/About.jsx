@@ -4,6 +4,7 @@ import SectionHeading from '../components/SectionHeading';
 import StatCard from '../components/StatCard';
 import CTASection from '../components/CTASection';
 import { companyData } from '../data/company';
+import { site } from '../data/site';
 import { Factory, Award, Target, Globe2 } from 'lucide-react';
 
 export default function About() {
@@ -55,7 +56,7 @@ export default function About() {
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Entity</div>
-                  <div className="col-span-2 text-primary-700 font-medium">{companyData.name}</div>
+                  <div className="col-span-2 text-primary-700 font-medium">{site.name}</div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 border-b border-primary-50 pb-4">
                   <div className="text-sm font-semibold text-primary-500 uppercase">Type</div>

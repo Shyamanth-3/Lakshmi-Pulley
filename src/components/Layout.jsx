@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { applySeo, getSeo } from '../seo';
 
 export default function Layout() {
   const location = useLocation();
@@ -10,6 +11,10 @@ export default function Layout() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    applySeo(getSeo(location.pathname));
   }, [location.pathname]);
 
   return (

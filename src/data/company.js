@@ -1,5 +1,4 @@
 export const companyData = {
-  name: "Lakshmi Engineering Enterprises",
   established: "1986",
   domain: "lakshmipulleys.in",
   tagline: "Leading manufacturer of mechanical power transmission components",
@@ -17,21 +16,4 @@ export const companyData = {
     factorySize: "3,000-5,000 square meters",
     certifications: "ISO 9001:2000"
   },
-  contact: {
-    address: {
-      line1: "5-5-35/87, Prashanthinagar",
-      line2: "Kukatpally, Hyderabad - 500072",
-      country: "India"
-    },
-    phones: [
-      "+91 89787 81631",
-      "+91 89787 81632",
-      "+91 94400 51818",
-      "+91 98480 34956"
-    ],
-    email: [
-      "lakshmi_pulley@yahoo.com",
-      "sales@lakshmipulley.com"
-    ]
-  }
 };

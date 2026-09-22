@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import FeatureList from '../components/FeatureList';
 import CTASection from '../components/CTASection';
-import { productsData } from '../data/products';
+import NotFound from './NotFound';
+import { getProduct } from '../data/products';
+import { getDocument } from '../data/documents';
+import { getRangeRows, formatVariantRange, columnHeader, formatCell } from '../data/format';
 import { Download, FileText, ChevronRight } from 'lucide-react';
 
 export default function ProductDetail() {
@@ -15,11 +18,19 @@ export default function ProductDetail() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  const product = productsData.find(p => p.slug === slug);
+  const product = getProduct(slug);
 
   if (!product) {
-    return <Navigate to="/products" replace />;
+    return <NotFound />;
   }
+
+  const image = product.images[0];
+  const documents = product.documentIds.map(getDocument);
+  const rangeRows = getRangeRows(product.specifications.range);
+  const tables = product.specifications.tables ?? [];
+  // Page-level "Product Specifications" tables; draft (unconfirmed) tables are not displayed yet.
+  const pageTables = tables.filter((t) => !t.variantId && t.status === 'published');
+  const modalTable = activeModal && tables.find((t) => t.id === activeModal.tableId);
 
   return (
     <div className="bg-surface pb-0 pt-8">
@@ -38,19 +49,19 @@ export default function ProductDetail() {
             <div className="bg-white rounded-2xl p-8 border border-primary-100 shadow-sm mb-6 sticky top-28">
               <div className="aspect-[4/3] relative flex items-center justify-center bg-primary-50 rounded-xl overflow-hidden mb-8 p-4">
                 <img 
-                  src={`${product.image}-640.webp`}
-                  srcSet={`${product.image}-320.webp 320w, ${product.image}-480.webp 480w, ${product.image}-640.webp 640w, ${product.image}-960.webp 960w`}
+                  src={`${image.src}-${image.defaultWidth}.webp`}
+                  srcSet={image.widths.map((w) => `${image.src}-${w}.webp ${w}w`).join(', ')}
                   sizes="(min-width: 1024px) 350px, calc(100vw - 128px)"
-                  alt={product.name} 
+                  alt={image.alt}
                   decoding="async"
                   className="w-full h-full object-contain mix-blend-multiply"
                 />
               </div>
               
               <div className="flex flex-col gap-3">
-                {product.catalogPdf && (
+                {documents.length === 1 && (
                   <a 
-                    href={product.catalogPdf} 
+                    href={documents[0].path} 
                     target="_blank" 
                     rel="noreferrer"
                     className="btn btn-outline w-full flex items-center justify-center gap-2 group"
@@ -59,18 +70,18 @@ export default function ProductDetail() {
                     Download Catalog PDF
                   </a>
                 )}
-                {product.catalogs && product.catalogs.length > 0 && (
+                {documents.length > 1 && (
                   <div className="flex flex-col gap-2 mt-2">
-                    {product.catalogs.map((catalog, idx) => (
+                    {documents.map((doc) => (
                       <a 
-                        key={idx}
-                        href={catalog.link} 
+                        key={doc.id}
+                        href={doc.path} 
                         target="_blank" 
                         rel="noreferrer"
                         className="btn btn-outline w-full flex items-center justify-center gap-2 group text-sm"
                       >
                         <FileText size={16} className="group-hover:-translate-y-0.5 transition-transform text-accent" />
-                        Download {catalog.name}
+                        Download {doc.title}
                       </a>
                     ))}
                   </div>
@@ -91,7 +102,7 @@ export default function ProductDetail() {
               </span>
               <h1 className="text-4xl md:text-5xl font-bold font-heading text-primary-700 mb-6">{product.name}</h1>
               <p className="text-xl text-primary-600 leading-relaxed mb-10 border-l-4 border-accent pl-4">
-                {product.shortDescription}
+                {product.summary}
               </p>
             </div>
             
@@ -104,15 +115,15 @@ export default function ProductDetail() {
             </div>
             
             {/* Technical Specifications (if present directly) */}
-            {product.technicalRange && (
+            {rangeRows.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-bold font-heading text-primary-700 mb-6">Technical Range</h2>
                 <div className="bg-white border text-primary-700 border-primary-100 rounded-xl overflow-hidden shadow-sm">
                   <div className="divide-y divide-primary-100">
-                    {Object.entries(product.technicalRange).map(([key, value]) => (
+                    {rangeRows.map(({ key, label, text }) => (
                       <div key={key} className="flex flex-col sm:flex-row p-4 hover:bg-primary-50 transition-colors">
-                        <div className="sm:w-1/3 font-semibold text-primary-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
-                        <div className="sm:w-2/3">{value}</div>
+                        <div className="sm:w-1/3 font-semibold text-primary-600 capitalize">{label}</div>
+                        <div className="sm:w-2/3">{text}</div>
                       </div>
                     ))}
                   </div>
@@ -136,12 +147,12 @@ export default function ProductDetail() {
                       <div className="flex-grow">
                         <h3 className="text-xl font-bold font-heading text-primary-700 mb-3">{variant.name}</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-primary-600">
-                          <div><strong className="text-primary-700">Available Sizes:</strong> {variant.sizes}</div>
-                          <div><strong className="text-primary-700">Torque:</strong> {variant.torque}</div>
-                          <div><strong className="text-primary-700">Power:</strong> {variant.power}</div>
-                          <div><strong className="text-primary-700">Bore Dia:</strong> {variant.boreDir}</div>
+                          <div><strong className="text-primary-700">Available Sizes:</strong> {variant.publishedSizeCount}</div>
+                          <div><strong className="text-primary-700">Torque:</strong> {formatVariantRange(variant.range).torque}</div>
+                          <div><strong className="text-primary-700">Power:</strong> {formatVariantRange(variant.range).power}</div>
+                          <div><strong className="text-primary-700">Bore Dia:</strong> {formatVariantRange(variant.range).bore}</div>
                         </div>
-                        {variant.requirementsTable && (
+                        {variant.tableId && (
                            <button 
                              onClick={() => setActiveModal(variant)}
                              className="mt-4 px-4 py-2 bg-primary-50 text-primary-700 text-sm font-semibold rounded-md border border-primary-200 hover:bg-primary-100 hover:text-accent transition-colors flex items-center gap-2"
@@ -157,15 +168,15 @@ export default function ProductDetail() {
             )}
             
             {/* Extra Info */}
-            {product.variantsInfo && (
+            {product.additionalInfo && (
               <div className="bg-primary-50 border border-primary-100 rounded-xl p-6 text-primary-700">
-                <p><strong>Additional Information:</strong> {product.variantsInfo}</p>
+                <p><strong>Additional Information:</strong> {product.additionalInfo}</p>
               </div>
             )}
 
             {/* Requirements Table */}
-            {product.requirementsTable && (
-              <div className="mb-12 mt-12 bg-white rounded-xl shadow-sm border border-primary-100 overflow-hidden">
+            {pageTables.map((table) => (
+              <div key={table.id} className="mb-12 mt-12 bg-white rounded-xl shadow-sm border border-primary-100 overflow-hidden">
                 <div className="p-6 border-b border-primary-100 bg-primary-50">
                   <h3 className="text-xl font-bold font-heading text-primary-700">Product Specifications</h3>
                 </div>
@@ -173,19 +184,19 @@ export default function ProductDetail() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-white border-b border-primary-100">
-                        {product.requirementsTable.headers.map((header, idx) => (
-                          <th key={idx} className="p-4 font-semibold text-primary-700 whitespace-nowrap text-sm uppercase tracking-wide">
-                            {header}
+                        {table.columns.map((column) => (
+                          <th key={column.key} className="p-4 font-semibold text-primary-700 whitespace-nowrap text-sm uppercase tracking-wide">
+                            {columnHeader(column)}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-primary-50">
-                      {product.requirementsTable.rows.map((row, rowIdx) => (
+                      {table.rows.map((row, rowIdx) => (
                         <tr key={rowIdx} className="hover:bg-primary-50/50 transition-colors">
-                          {row.map((cell, cellIdx) => (
-                            <td key={cellIdx} className="p-4 text-primary-600 font-medium whitespace-pre-wrap">
-                              {cell}
+                          {table.columns.map((column) => (
+                            <td key={column.key} className="p-4 text-primary-600 font-medium whitespace-pre-wrap">
+                              {formatCell(column, row)}
                             </td>
                           ))}
                         </tr>
@@ -194,8 +205,7 @@ export default function ProductDetail() {
                   </table>
                 </div>
               </div>
-            )}
-
+            ))}
           </div>
         </div>
       </section>
@@ -203,7 +213,7 @@ export default function ProductDetail() {
       <CTASection title="Not sure which product you need?" subtitle="Our experts are ready to assist you in selecting the right drive for your application." primaryButtonText="Get Expert Help"/>
 
       {/* Modal */}
-      {activeModal && activeModal.requirementsTable && (
+      {activeModal && modalTable && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary-900/40 backdrop-blur-sm">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-center p-6 border-b border-primary-100 bg-surface">
@@ -216,16 +226,16 @@ export default function ProductDetail() {
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
                   <tr className="bg-primary-600 border-b border-primary-700">
-                    {activeModal.requirementsTable.headers.map((h, i) => (
-                      <th key={i} className="p-4 font-semibold text-white uppercase tracking-wider text-xs border-r border-primary-500 last:border-0">{h}</th>
+                    {modalTable.columns.map((c) => (
+                      <th key={c.key} className="p-4 font-semibold text-white uppercase tracking-wider text-xs border-r border-primary-500 last:border-0">{columnHeader(c)}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-primary-100">
-                  {activeModal.requirementsTable.rows.map((r, ri) => (
+                  {modalTable.rows.map((r, ri) => (
                     <tr key={ri} className="hover:bg-primary-50 transition-colors">
-                      {r.map((c, ci) => (
-                        <td key={ci} className="p-4 text-primary-700 font-medium border-r border-primary-100 last:border-0">{c}</td>
+                      {modalTable.columns.map((c) => (
+                        <td key={c.key} className="p-4 text-primary-700 font-medium border-r border-primary-100 last:border-0">{formatCell(c, r)}</td>
                       ))}
                     </tr>
                   ))}

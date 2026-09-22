@@ -1,7 +1,7 @@
 import React from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
-import { companyData } from '../data/company';
+import { site } from '../data/site';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function Contact() {
@@ -28,10 +28,10 @@ export default function Contact() {
               <div>
                 <h4 className="text-lg font-bold font-heading text-primary-700 mb-2">Our Office</h4>
                 <p className="text-primary-600 leading-relaxed text-sm">
-                  {companyData.name}<br/>
-                  {companyData.contact.address.line1},<br/>
-                  {companyData.contact.address.line2}<br/>
-                  {companyData.contact.address.country}.
+                  {site.name}<br/>
+                  {site.contact.address.line1},<br/>
+                  {site.contact.address.line2}<br/>
+                  {site.contact.address.country}.
                 </p>
               </div>
             </div>
@@ -43,7 +43,7 @@ export default function Contact() {
               <div>
                 <h4 className="text-lg font-bold font-heading text-primary-700 mb-2">Phone</h4>
                 <div className="flex flex-col gap-1 text-primary-600 text-sm">
-                  {companyData.contact.phones.map((phone, idx) => (
+                  {site.contact.phones.map((phone, idx) => (
                     <span key={idx}>{phone}</span>
                   ))}
                 </div>
@@ -57,7 +57,7 @@ export default function Contact() {
               <div>
                 <h4 className="text-lg font-bold font-heading text-primary-700 mb-2">Email</h4>
                 <div className="flex flex-col gap-1 text-primary-600 text-sm font-medium">
-                  {companyData.contact.email.map((email, idx) => (
+                  {site.contact.emails.map((email, idx) => (
                     <a key={idx} href={`mailto:${email}`} className="hover:text-accent transition-colors">
                       {email}
                     </a>

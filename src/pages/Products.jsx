@@ -3,16 +3,16 @@ import Breadcrumb from '../components/Breadcrumb';
 import SectionHeading from '../components/SectionHeading';
 import ProductCard from '../components/ProductCard';
 import CTASection from '../components/CTASection';
-import { productsData } from '../data/products';
+import { products, categories, getCategory } from '../data/products';
 
 export default function Products() {
   const [activeFilter, setActiveFilter] = useState('All');
   
-  const categories = ['All', 'Couplings', 'Pulleys'];
+  const filters = ['All', ...categories.map((c) => c.name)];
   
   const filteredProducts = activeFilter === 'All' 
-    ? productsData 
-    : productsData.filter(p => p.category === activeFilter);
+    ? products 
+    : products.filter(p => getCategory(p.category).name === activeFilter);
 
   return (
     <div className="bg-surface pb-0 pt-8">
@@ -28,7 +28,7 @@ export default function Products() {
         
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-10 border-b border-primary-100 pb-4">
-          {categories.map(category => (
+          {filters.map(category => (
             <button
               key={category}
               onClick={() => setActiveFilter(category)}
@@ -46,7 +46,7 @@ export default function Products() {
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.slug} product={product} />
           ))}
         </div>
         

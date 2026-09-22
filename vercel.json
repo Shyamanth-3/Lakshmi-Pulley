@@ -1,5 +1,13 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "lakshmipulley.com" }],
+      "destination": "https://www.lakshmipulley.com/$1",
+      "statusCode": 301
+    },
     {
       "source": "/Assets/Flexible jaw couplings.pdf",
       "destination": "/downloads/lakshmi-flexible-jaw-couplings-catalogue.pdf",
@@ -67,7 +75,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
 }
