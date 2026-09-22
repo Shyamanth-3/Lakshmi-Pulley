@@ -27,6 +27,8 @@ export const site = {
       { name: 'Home', path: '/' },
       { name: 'About Us', path: '/about' },
       { name: 'Products', path: '/products' },
+      { name: 'Downloads', path: '/downloads' },
+      { name: 'Custom Manufacturing', path: '/custom-manufacturing' },
       { name: 'Enquiry', path: '/enquiry' },
       { name: 'Contact Us', path: '/contact' },
     ],

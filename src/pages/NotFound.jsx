@@ -7,13 +7,13 @@ import { productLinks } from '../data/site';
 export default function NotFound() {
   return (
     <div className="bg-surface pb-20 pt-8">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl md:text-5xl font-bold font-heading text-primary-700 mb-4">Page not found</h1>
+      <div className="container">
+        <h1 className="mb-4">Page not found</h1>
         <p className="text-lg text-primary-600 mb-10 max-w-2xl">
           The page you asked for does not exist or has moved. These pages may help.
         </p>
 
-        <h2 className="text-xl font-bold font-heading text-primary-700 mb-4">Our products</h2>
+        <h2 className="mb-4">Our products</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10 max-w-2xl">
           {productLinks.map((link) => (
             <li key={link.path}>

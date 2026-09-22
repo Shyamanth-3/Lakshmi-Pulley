@@ -18,11 +18,8 @@ export default function Footer() {
               <img src="/Assets/logo3.png" alt="Lakshmi Pulley – Lakshmi Engineering Enterprises Logo" className="h-14 w-auto mix-blend-multiply" />
             </div>
             <p className="text-primary-600 text-sm leading-relaxed mb-6 mt-4">
-              {companyData.tagline}. Delivering excellence since {companyData.established}.
+              {companyData.tagline}. Established {companyData.established}.
             </p>
-            <div className="flex items-center gap-2 mb-6">
-              <span className="font-semibold px-2 py-1 bg-primary-600 text-white rounded text-xs border border-primary-500">{companyData.stats.certifications} Certified</span>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -89,6 +86,9 @@ export default function Footer() {
           <p className="text-primary-500 font-medium text-sm" suppressHydrationWarning>
             &copy; {currentYear} {site.name}. All Rights Reserved.
           </p>
+          <Link to="/privacy" className="text-primary-500 hover:text-accent text-sm font-medium transition-colors">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

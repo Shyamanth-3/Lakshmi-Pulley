@@ -58,6 +58,24 @@ const PAGES = {
     crumb: 'Contact Us',
     jsonLd: ['breadcrumbs'],
   },
+  '/downloads': {
+    title: `Catalogue Downloads | ${BRAND}`,
+    description: `Download ${BRAND} product catalogues (PDF) for our couplings and pulleys.`,
+    crumb: 'Downloads',
+    jsonLd: ['breadcrumbs'],
+  },
+  '/custom-manufacturing': {
+    title: `Custom Manufacturing | ${BRAND}`,
+    description: `Custom options available across ${BRAND} products — bore, spacer, material and other variations by product.`,
+    crumb: 'Custom Manufacturing',
+    jsonLd: ['breadcrumbs'],
+  },
+  '/privacy': {
+    title: `Privacy Policy | ${BRAND}`,
+    description: `How ${BRAND} handles information submitted through this site.`,
+    crumb: 'Privacy Policy',
+    jsonLd: ['breadcrumbs'],
+  },
   // Post-submission confirmation, not a marketing page: noindex, no OG/Twitter/JSON-LD (see headTags).
   '/enquiry/thank-you': {
     title: `Enquiry Submitted | ${BRAND}`,
@@ -93,7 +111,8 @@ const breadcrumbList = (items) => ({
 // Every route that gets a prerendered HTML file (so direct links/refreshes work on Vercel).
 // Product routes come from the canonical product data. Includes noindex utility pages (thank-you).
 export const publicRoutes = () => [
-  '/', '/about', '/products', ...products.map((p) => `/products/${p.slug}`), '/enquiry', '/contact', '/enquiry/thank-you',
+  '/', '/about', '/products', ...products.map((p) => `/products/${p.slug}`), '/enquiry', '/contact',
+  '/downloads', '/custom-manufacturing', '/privacy', '/enquiry/thank-you',
 ];
 
 // The indexable subset that belongs in the sitemap — excludes noindex pages like the thank-you page.
