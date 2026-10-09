@@ -284,7 +284,7 @@ export const products = [
         }
       ],
       notes: [
-        
+
         "Published values kept as-is. The same three mismatches appear in the old-site scrape, so they were inherited, not introduced.",
         "Size codes are kept exactly as published (the zero padding differs, e.g. J-095 vs J-0100)."
       ]
@@ -458,7 +458,7 @@ export const products = [
       ownerVerified: false,
       conflicts: [],
       notes: [
-        
+
         "Size table (LTC40 to LTC250, 17 rows) restored unchanged from the old-site scrape; status \"draft\" until the owner confirms it, so it is not displayed yet.",
         "Observation, not a published fact: 132 kW per 100 rpm (LTC250) corresponds to about 12,605 Nm, which matches the published nominal torque of 12,606 Nm.",
         "Old-site tyre temperature ranges are garbled in the scrape (\"-500C to +500C\" style) and were NOT migrated; the owner must supply them.",
@@ -523,7 +523,7 @@ export const products = [
       ownerVerified: false,
       conflicts: [],
       notes: [
-        
+
         "Applications restored from the old-site scrape (11 entries). The current site lists only rolling mills, paper machinery, cranes and cement plants, followed by \"etc.\".",
         "Old site prints the torque maximum as 12,00,000 Nm (Indian grouping); the current site prints 1,200,000 Nm. Same value."
       ]
@@ -556,17 +556,17 @@ export const products = [
           rows: [
             {
               section: "SPZ",
-              grooves: { min: 1, max: 5 },
+              grooves: { min: 1, max: 6 },
               pcd: [67, 71, 75, 80, 85, 90, 95, 100, 112, 125, 140, 160, 180, 200, 250, 315, 400, 500, 630, 800]
             },
             {
               section: "A/SPA",
-              grooves: { min: 2, max: 5 },
+              grooves: { min: 2, max: 6 },
               pcd: [80, 85, 90, 95, 100, 106, 112, 118, 125, 132, 140, 150, 160, 180, 200, 250, 315, 400, 500, 630]
             },
             {
               section: "B/SPB",
-              grooves: { min: 2, max: 6 },
+              grooves: { min: 2, max: 10 },
               pcd: [
                 125, 132, 140, 150, 160, 170, 180, 190, 200, 212, 224, 236, 250, 280, 315, 355, 400, 500, 630, 800,
                 1000
@@ -574,7 +574,7 @@ export const products = [
             },
             {
               section: "C/SPC",
-              grooves: { min: 4, max: 8 },
+              grooves: { min: 4, max: 10 },
               pcd: [
                 200, 212, 224, 236, 250, 265, 280, 300, 315, 335, 355, 375, 400, 425, 450, 475, 500, 530, 560, 630,
                 800, 1000, 1250
@@ -600,16 +600,6 @@ export const products = [
       },
       { label: "Alternative material such as cast steel", origin: "current-site" },
       { label: "Flywheel pulleys", origin: "old-site-scrape" },
-      {
-        label: "Complete jack-shaft drives",
-        note: "Old site: including jack-shafts, pedestals, plummer blocks, bearings and base plates mounted on slide rails.",
-        origin: "current-site"
-      },
-      {
-        label: "Dynamic balancing on request",
-        note: "Old site adds \"at extra cost\". Arm and web pulleys are supplied statically balanced.",
-        origin: "current-site"
-      }
     ],
     documentIds: [
       "v-pulleys-spa-catalogue", "v-pulleys-spb-catalogue", "v-pulleys-spc-catalogue", "v-pulleys-spz-catalogue",
@@ -637,7 +627,7 @@ export const products = [
       ownerVerified: false,
       conflicts: [],
       notes: [
-        
+
         "The published table lists pitch circle diameters per belt section only. The full per-size dimension tables (bush, max bore, F/K/L/M, outside diameter) exist only inside the scanned catalogue PDFs and have not been transcribed.",
         "Old-site scrape also states Easyfit bush shaft tolerances of +0.051 mm / -0.127 mm; not migrated (not requested for this step).",
         "The \"Easy Fit Bush Bore & Key Way\" catalogue is attached to this product because the current site lists it here; the owner should confirm whether taper bushes become their own product."
@@ -655,7 +645,7 @@ export const products = [
       "Available in 8 sizes from 70 to 280.", "Can transmit from 0.35kW to 33kW at 100RPM.",
       "Cost saving advantages of the EASYFIT(TAPER) System."
     ],
-    specifications: {  },
+    specifications: {},
     variants: [],
     additionalInfo: "Contact us for custom requirements.",
     customOptions: [{ label: "Custom requirements on request", origin: "current-site" }],
@@ -679,7 +669,7 @@ export const products = [
       ownerVerified: false,
       conflicts: [],
       notes: [
-        
+
         "Published as \"general purpose jaw couplings\", which is the basis for linking to the flexible jaw couplings page.",
         "Size range (8 sizes, 70 to 280) and power (0.35 to 33 kW at 100 rpm) exist only in the summary and feature text; not extracted as structured range values because the site does not display a range for this product yet.",
         "No catalogue or size table is published."
@@ -696,7 +686,7 @@ export const products = [
       "Non-slip with no backlash.", "Constant linear velocity.",
       "Available in all pitches: XL, L, H, HTD, T5, T10.", "Custom specifications available upon contact."
     ],
-    specifications: {  },
+    specifications: {},
     variants: [],
     additionalInfo: "For any other specification contact us.",
     customOptions: [{ label: "Other specifications on request", origin: "current-site" }],
@@ -720,7 +710,7 @@ export const products = [
       ownerVerified: false,
       conflicts: [],
       notes: [
-        
+
         "Pitches XL, L, H, HTD, T5, T10 appear in text only. \"HTD\" may be a third-party trademark name; owner to confirm.",
         "No catalogue or size table is published."
       ]
@@ -733,7 +723,7 @@ export const products = [
     category: "couplings",
     summary: "Lakshmi grid Couplings Reduce Vibration, Absorb Shock and Compensate for Misalignment.",
     features: ["Reduces Vibration.", "Absorbs Shock.", "Compensates for Misalignment."],
-    specifications: {  },
+    specifications: {},
     variants: [],
     additionalInfo: "Contact us for custom requirements.",
     customOptions: [{ label: "Custom requirements on request", origin: "current-site" }],

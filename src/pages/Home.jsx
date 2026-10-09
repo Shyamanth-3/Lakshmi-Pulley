@@ -17,7 +17,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative bg-primary-700 min-h-[65vh] flex items-center pt-20 pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-60">
-          <img src="/images/site/home-hero-1280.webp" srcSet="/images/site/home-hero-640.webp 640w, /images/site/home-hero-960.webp 960w, /images/site/home-hero-1280.webp 1280w, /images/site/home-hero-1915.webp 1915w" sizes="max(100vw, 1280px)" width="1915" height="821" fetchPriority="high" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
+          <img src="/images/site/new-home-hero.png" fetchPriority="high" alt="Industrial Background" className="w-full h-full object-cover mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-800/60 to-transparent"></div>
         </div>
 
